@@ -1,0 +1,10 @@
+(point to directory)
+cd C:/Users/Rudolf/Documents/quotable-master
+(start virtual environment)
+. venv/bin/activate
+(install requirements *first time only*)
+pip install -r requirements.txt
+(start program)
+python api.py
+(access program - type this in your browser)
+localhost:5000

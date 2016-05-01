@@ -1,0 +1,167 @@
+.kl-quotecomposition {
+	width:@quote-composition-width;
+	//float:left;
+	margin-left:20px;
+	margin-bottom:20px;
+	.btn-group {
+		//display:block;
+		margin-left:auto;
+		margin-right:auto;
+		width:@quote-composition-width;
+		//height:@quote-composition-height;
+		text-align:center;
+		.btn-right {
+			float:right;
+		}
+	}
+	.kl-quotecomposition-container {
+		position:relative;
+		width:@quote-composition-width;
+		height:@quote-composition-height;
+		background-color:#000;
+
+		display:inline-block;
+		.kl-quotecomposition-text {
+			position:absolute;
+			display:flex;
+			align-items: center;
+			justify-content: center;
+			height:100%;
+			width:100%;
+			z-index:3;
+			overflow:hidden;
+
+			blockquote {
+				color:#EEE;
+				font-family: @font-family-serif;
+				padding:0;
+				font-size: (@font-size-base * 1.2);
+				line-height:(@font-size-base * 1.6);
+				font-weight:200;
+				border:none;
+				margin:0;
+				margin-left:5%;
+				margin-right:5%;
+				width:100%;
+				//text-shadow: 3px 3px 0 #000,-1px -1px 0 #000,1px -1px 0 #000,-1px 1px 0 #000,1px 1px 0 #000;
+				text-shadow: 2px 2px 4px fadeout(#000, 25%);
+				p {
+					text-align:left;
+					
+					&[contenteditable="true"] {
+						padding: 5px;
+						outline: 2px dashed fadeout(#CCC, 75);
+					}
+					&[contenteditable="true"]:hover {
+						//padding: 10px; 
+						outline: 2px dashed #CCC;
+					}
+
+					&:before {
+						content:"“";
+						color:@gray-light;
+						//margin:-15px;
+					}
+					&:after {
+						content:"”";
+						color:@gray-light;
+					}
+				}
+				cite {
+					padding: 5px;
+					padding-right:10px;
+					&[contenteditable="true"] {
+						//padding: 5px;
+						outline: 2px dashed fadeout(#CCC, 75);
+					}
+					&[contenteditable="true"]:hover {
+						//padding: 10px; 
+						outline: 2px dashed #CCC;
+					}
+					&:before {
+						content:"— ";
+						color:@gray-light;
+					}
+					display:block;
+					font-size: 12px;
+					text-align:right;
+					position:absolute;
+					bottom:0;
+					right:0;
+				}
+			}
+		}
+
+		.kl-quotecomposition-background {
+			width:@quote-composition-width;
+			height:@quote-composition-height;
+			z-index:2;
+			opacity:0.5;
+			position:absolute;
+			top:0;
+			left:0;
+			background-color:#000;
+		}
+
+		.kl-quotecomposition-image {
+			z-index:1;
+			width:100%;
+			//opacity:0.5;
+			width:@quote-composition-width;
+			height:@quote-composition-height;
+			background-size:cover;
+			background-position: center center;
+		}
+	}
+
+	&.kl-anchor-right {
+		.kl-quotecomposition-container {
+			.kl-quotecomposition-text {
+				blockquote {
+					p {
+						text-align:right;
+						margin-left:50%;
+						font-size: (@font-size-base * 1);
+						line-height:(@font-size-base * 1.4);
+					}
+				}
+			}
+			.kl-quotecomposition-image {
+				//opacity:0.7;
+			}
+			.kl-quotecomposition-background {
+				opacity:1;
+				width:60%;
+				margin-left:40%;
+				background-color:transparent;
+				.background-gradient(rgba(0,0,0,0.0001); rgba(0,0,0,0.6); 0%; 15%);
+			}
+		}
+
+	}
+	&.kl-anchor-left {
+		.kl-quotecomposition-container {
+			.kl-quotecomposition-text {
+				blockquote {
+					p {
+						text-align:left;
+						margin-right:50%;
+						font-size: (@font-size-base * 1);
+						line-height:(@font-size-base * 1.4);
+					}
+				}
+			}
+
+			.kl-quotecomposition-image {
+				//opacity:0.7;
+			}
+			.kl-quotecomposition-background {
+				opacity:1;
+				width:60%;
+				background-color:transparent;
+				.background-gradient(rgba(0,0,0,0.6); rgba(0,0,0,0.0001); 85%; 100%);
+			}
+		}
+		
+	}
+}

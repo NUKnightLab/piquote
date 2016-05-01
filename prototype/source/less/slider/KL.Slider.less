@@ -1,0 +1,37 @@
+/* SLIDER CONTAINERS 
+================================================== */
+.kl-slider {
+	width:100%;
+	height:100%;
+	overflow:hidden;
+	.user-select(none);
+	position:relative;
+	box-sizing:content-box;
+	//.box-shadow(1px 1px 7px rgba(0,0,0,.30));
+	
+	z-index:8;
+	.kl-slider-container-mask {
+		text-align: center;
+		width: 100%;
+		height: 100%;
+		//overflow: scroll;
+		position: relative;
+		z-index:5;
+		.kl-slider-container {
+			position: absolute;
+			top: 0px;
+			left: 0px;
+			width: 100%;
+			height: 100%;
+			text-align: center;
+			
+			.kl-slider-item-container {
+				width: 100%;
+				height: 100%;
+				display:table-cell;
+				vertical-align:middle;
+
+			}
+		}
+	}
+}

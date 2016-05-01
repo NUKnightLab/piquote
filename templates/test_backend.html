@@ -1,0 +1,52 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <title>{% block title %}Piquote | Northwestern University Knight Lab{% endblock %}</title>
+    <meta name="viewport" content="width=device-width">
+    <script src="//ajax.googleapis.com/ajax/libs/jquery/1.9.1/jquery.min.js"></script>
+</head>
+<body>
+<script type=text/javascript>
+  $SCRIPT_ROOT = {{ request.script_root|tojson|safe }};
+  $(function() {
+  var scrape= function(e){
+  		
+      $.getJSON($SCRIPT_ROOT + '/getResults', {
+        a: $('input[name="a"]').val()
+      }
+      , function(data) {
+          // alert(data.image)
+           // alert(data.quote[1])
+           // alert(data.quote.length)
+           len=data.quote.length
+            
+          $("#my_image").attr("src",data.image);
+          
+              $('p').text(data.quote[1]);
+
+              $('p').append("<br><br>");
+              
+               $('p').text(data.quote[2]);
+          
+
+      });
+      return false;
+  };
+
+  $('#send').bind('click',scrape);
+
+});
+</script>
+	<h2>Paste the URL :</h2>
+	<input type="text" name="a" placeholder="Enter the URL" size=70 > 
+	<input type="button" id="send" value="Send">
+	<br><br>
+	<h2>The Image Selected :</h2>
+	<img id="my_image" src="">
+	<br><br>
+	<h2>The Quote Selected :</h2>
+	<p style="color: blue ;font-size:20px"></p>
+	<br><br>
+ 
+</body>
+</html>

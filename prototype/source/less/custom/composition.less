@@ -1,0 +1,82 @@
+figure.composition {
+	position:relative;
+	width:505px;
+	height:283px;
+	background-color:#000;
+	display:flex;
+	align-items: center;
+	justify-content: center;
+	overflow:hidden;
+	.composition-text {
+		position:absolute;
+		display:flex;
+		align-items: center;
+		justify-content: center;
+		height:100%;
+		z-index:2;
+		#example-one { margin-bottom: 10px; }
+
+		blockquote {
+			color:#EEE;
+			font-family: @font-family-serif;
+			padding:0;
+			font-size: (@font-size-base * 1.2);
+			line-height:(@font-size-base * 1.6);
+			font-weight:200;
+			border:none;
+			margin:0;
+			margin-left:10%;
+			margin-right:10%;
+			//text-shadow: 3px 3px 0 #000,-1px -1px 0 #000,1px -1px 0 #000,-1px 1px 0 #000,1px 1px 0 #000;
+			text-shadow: 2px 2px 4px fadeout(#000, 25%);
+			p {
+				&[contenteditable="true"] {
+					padding: 5px;
+					outline: 2px dashed fadeout(#CCC, 75);
+				}
+				&[contenteditable="true"]:hover {
+					//padding: 10px; 
+					outline: 2px dashed #CCC;
+				}
+
+				&:before {
+					content:"“";
+					color:@gray-light;
+				}
+				&:after {
+					content:"”";
+					color:@gray-light;
+				}
+			}
+			cite {
+				&[contenteditable="true"] {
+					padding: 5px;
+					outline: 2px dashed fadeout(#CCC, 75);
+				}
+				&[contenteditable="true"]:hover {
+					//padding: 10px; 
+					outline: 2px dashed #CCC;
+				}
+				&:before {
+					content:"— ";
+					color:@gray-light;
+				}
+				display:block;
+				font-size: 12px;
+				text-align:right;
+			}
+
+
+		}
+	}
+	#composition-image {
+		z-index:1;
+		width:100%;
+		opacity:0.5;
+		width:505px;
+		height:283px;
+		background-size:cover;
+		background-position: center center;
+	}
+	
+}
