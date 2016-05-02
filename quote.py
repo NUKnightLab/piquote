@@ -165,12 +165,13 @@ def parse(argv):
 
     allQuotes.sort(key= lambda q:len(q), reverse=True)
 
-    while len(allQuotes[0])>500:
-        allQuotes=allQuotes[1:]
-    allQuotes.reverse()
-    while len(allQuotes[0])<40:
-        allQuotes=allQuotes[1:]
-    allQuotes.reverse()
+    if len(allQuotes)>0:
+        while len(allQuotes[0])>500:
+            allQuotes=allQuotes[1:]
+        allQuotes.reverse()
+        while len(allQuotes[0])<40:
+            allQuotes=allQuotes[1:]
+        allQuotes.reverse()
 
     properU=[]
     for line in proper:
@@ -213,10 +214,10 @@ def parse(argv):
 
     return allQuotes,content, images
 def multiSplit(string):
-
-    list= string.replace('/',' ').replace('.', ' ').replace('_', ' ').split()
-    return list
-
+    if not string:
+        return []
+    seperated= string.replace('/',' ').replace('.', ' ').replace('_', ' ').split()
+    return seperated
    
 #parse('http://www.huffingtonpost.com/entry/david-cameron-dodgy_us_570bf446e4b0885fb50dc004')
 #parse('http://www.huffingtonpost.com/entry/ted-cruz-gold-standard-republican_us_571196bfe4b06f35cb6fbac6?cps=gravity_2425_-8385480002285021224')

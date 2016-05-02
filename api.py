@@ -116,7 +116,7 @@ def more_stuff(item,more_items,target_len=None):
     l = [item]
     if target_len is None:
         target_len = random.randint(1,max(len(more_items),6))
-    while len(l) < target_len:
+    while len(l) < target_len and more_items:
         extra = random.choice(more_items)
         if extra not in l:
             l.append(extra)
