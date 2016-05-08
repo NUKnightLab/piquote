@@ -66,12 +66,14 @@ def getResults():
     
     #Calling scrape.py for quote and Image
     quotes_array,image, extras = quote.parse(a)
+    
     # more_stuff for prototyping purposes
     j = jsonify(quote=quotes_array,image=more_stuff(image,extras, len(quotes_array)))
+
     # return jsonify(image=image,quote=quote)
     j.headers['Access-Control-Allow-Origin'] = '*'
     j.headers['Access-Control-Allow-Methods'] = 'GET'
-    
+   
     return j
 
 # assume any other requests are for static content.
@@ -117,9 +119,11 @@ def more_stuff(item,more_items,target_len=None):
     if target_len is None:
         target_len = random.randint(1,max(len(more_items),6))
     while len(l) < target_len and more_items:
+        
         extra = random.choice(more_items)
-        if extra not in l:
-            l.append(extra)
+        
+        l.append(extra)
+    
     return l
 
     
