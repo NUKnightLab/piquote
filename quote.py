@@ -16,7 +16,7 @@ final_quote=""
 final_image=""
 
 punctuation = [".", "!", "?", ")", "]", "\"", "'", u"\u201D", u"\u201C"] 
-prefixes = ['dr', 'vs', 'mr', 'mrs','ms' ,'prof', 'inc','jr','f.b.i','i.e']
+prefixes = ['dr', 'vs', 'mr', 'mrs','ms' ,'prof', 'inc','jr','i.e']
 """
 emotive= ['feel', 'chill', 'fire', 'burn', 'feel the fire']
 
@@ -82,7 +82,7 @@ def parse(argv):
                 lastSpace=i
                 if inQuote:
                     spaceQ+=1
-            elif c=="." and (text[lastSpace+1:i].lower() in prefixes or i-lastCap<2 or i-lastSpace<2): 
+            elif c=="." and (text[lastSpace+1:i].lower() in prefixes or i-lastCap<4 or i-lastSpace<2): 
                 # all the cases for when a period doesn't end a sentence
                 do=0
                 #continue
@@ -189,25 +189,7 @@ def parse(argv):
         mod-=1
 
 
-    senScored=[]
-    for s in allSen:
-        score = 0
-        j=s.lower()
-        for p in punctuation:
-            j=j.replace(p, '')
-        l=j.split()
-        for w in l:
-            if w in repository.emotive:
-                score+=1
-        for w in repository.nouns:
-            if w in j:
-                score+=1
-        for w in repository.people:
-            if w in j:
-                score+=1
-        senScored.append([score, s])
-    senScored.sort(key=lambda x:x[0], reverse=True)
-    goodSen=[i[1] for i in senScored[:6]]
+    
     """
     blockQuote= soup.find_all(attrs={ "class" : "pullquote" }) # pull block quotes -----NOT WORKING-----
     for line in blockQuote:
@@ -224,6 +206,27 @@ def parse(argv):
             allQuotes=allQuotes[1:]
         allQuotes.reverse()
 
+    goodSen=[]
+    if not allQuotes:
+        senScored=[]
+        for s in allSen:
+            score = 0
+            j=s.lower()
+            for p in punctuation:
+                j=j.replace(p, '')
+            l=j.split()
+            for w in l:
+                if w in repository.emotive:
+                    score+=1
+            for w in repository.nouns:
+                if w in j:
+                    score+=1
+            for w in repository.people:
+                if w in j:
+                    score+=1
+            senScored.append([score, s])
+        senScored.sort(key=lambda x:x[0], reverse=True)
+        goodSen=[i[1] for i in senScored[:6]]
     #for i in range(len(allQuotes)):
     #    q=allQuotes[i]
     #    q+=str(len(q))
@@ -294,8 +297,10 @@ def parse(argv):
             content= i.get('content') # supposed to be a guarenteed good image for every article 'technically'
             break
 
-
-    return goodSen,content, images
+    if allQuotes:
+        return allQuotes, content, images
+    else:
+        return goodSen,content, images
 def multiSplit(string):
     if not string:
         return []
