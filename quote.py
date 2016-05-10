@@ -46,6 +46,15 @@ def parse(argv):
     proper=[]
     for para in paras:
         text=para.get_text()
+        web= para.find_all('webonly')
+        if web:
+            for w in web:
+                s=w.string
+                i=text.find(s)
+                text1= text[:i]
+                text2= text[i+len(s):]
+                text=text1+text2
+       
         text.encode('utf-8')
 
         sentences= []
@@ -92,7 +101,7 @@ def parse(argv):
                     j+=1
                 s = text[lastBegin:j]
                 sentences.append(s)
-                nextBegin= j
+                nextBegin= j+1
 
                 if capC>1:
                     proper.append(text[properStart:i])
@@ -188,7 +197,10 @@ def parse(argv):
         allQuotes.pop(i+mod)
         mod-=1
 
-
+    properU=[]
+    for line in proper:
+        if line not in properU:
+            properU.append(line) # a list of unique proper names, unused for now
     
     """
     blockQuote= soup.find_all(attrs={ "class" : "pullquote" }) # pull block quotes -----NOT WORKING-----
@@ -199,7 +211,7 @@ def parse(argv):
     allQuotes.sort(key= lambda q:len(q), reverse=True)
 
     if len(allQuotes)>0:
-        while len(allQuotes[0])>200: #max quote size
+        while len(allQuotes[0])>180: #max quote size
             allQuotes=allQuotes[1:]
         allQuotes.reverse()
         while len(allQuotes[0])<80: # min quote size
@@ -207,7 +219,7 @@ def parse(argv):
         allQuotes.reverse()
 
     goodSen=[]
-    if not allQuotes:
+    if len(allQuotes)<6:
         senScored=[]
         for s in allSen:
             score = 0
@@ -224,18 +236,22 @@ def parse(argv):
             for w in repository.people:
                 if w in j:
                     score+=1
+            score+= s.count('\"')
+            score+= s.count(u"\u201C")
+            score+= s.count(u"\u201D")
             senScored.append([score, s])
         senScored.sort(key=lambda x:x[0], reverse=True)
-        goodSen=[i[1] for i in senScored[:6]]
+        goodSen=[i[1] for i in senScored[:6-len(allQuotes)]]
+
+    #pp.pprint(allQuotes)
+    #pp.pprint(goodSen)
+    goodSen= allQuotes+goodSen
     #for i in range(len(allQuotes)):
     #    q=allQuotes[i]
     #    q+=str(len(q))
     #    allQuotes[i]=q
 
-    properU=[]
-    for line in proper:
-        if line not in properU:
-            properU.append(line) # a list of unique proper names, unused for now
+   
 
 
     #pp.pprint(properU)
@@ -297,10 +313,7 @@ def parse(argv):
             content= i.get('content') # supposed to be a guarenteed good image for every article 'technically'
             break
 
-    if allQuotes:
-        return allQuotes, content, images
-    else:
-        return goodSen,content, images
+    return goodSen,content, images
 def multiSplit(string):
     if not string:
         return []
