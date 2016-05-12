@@ -66,9 +66,9 @@ def getResults():
     
     #Calling scrape.py for quote and Image
     quotes_array,image, extras = quote.parse(a)
-    
+    q, i= formatArrays(quotes_array,image, extras, False)
     # more_stuff for prototyping purposes
-    j = jsonify(quote=quotes_array,image=more_stuff(image,extras, len(quotes_array)))
+    j = jsonify(quote=q,image=i)
 
     # return jsonify(image=image,quote=quote)
     j.headers['Access-Control-Allow-Origin'] = '*'
@@ -125,8 +125,26 @@ def more_stuff(item,more_items,target_len=None):
         l.append(extra)
     
     return l
+def formatArrays(text, best, others, final):
+    if final:
+        t=text[:2]
+        t=t[0]+t[0]+t[1]+t[1]
+        i=[best]
+        for j in range(3):
+            if others:
+                i.append(random.choice(others))
+            else:
+                i.append(best)
+        return t, i
+    else:
+        i=[best]
+        for j in range(len(text)-1):
+            if others:
+                i.append(random.choice(others))
+            else:
+                i.append(best)
+        return text, i
 
-    
 if __name__ == '__main__':
     class Usage(Exception):
         def __init__(self, msg):

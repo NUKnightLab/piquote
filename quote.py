@@ -201,6 +201,14 @@ def parse(argv):
     for line in proper:
         if line not in properU:
             properU.append(line) # a list of unique proper names, unused for now
+
+
+    tempQuotes= []
+    for quote in allQuotes:
+        ascii=ord(quote[1])
+        if ascii>64 and ascii<91:
+            tempQuotes.append(quote)
+    allQuotes=tempQuotes
     
     """
     blockQuote= soup.find_all(attrs={ "class" : "pullquote" }) # pull block quotes -----NOT WORKING-----
@@ -208,7 +216,7 @@ def parse(argv):
         allQuotes.push(line.get_text())
     """
 
-    allQuotes.sort(key= lambda q:len(q), reverse=True)
+    
 
     """"
     Errors with this algorithm:
@@ -225,43 +233,43 @@ def parse(argv):
         while len(allQuotes[0])<80: # min quote size
             allQuotes=allQuotes[1:]
         allQuotes.reverse()"""
-    tempQuotes = []
-    if len(allQuotes)>0:
-        for quote in allQuotes:
-            length = len(quote);
-            if length >80 and length <180:
-                tempQuotes.append(quote)
-    allQuotes = tempQuotes
 
 
+    numQuotes=6
     goodSen=[]
-    if len(allQuotes)<6:
-        senScored=[]
-        for s in allSen:
-            score = 0
-            j=s.lower()
-            for p in punctuation:
-                j=j.replace(p, '')
-            l=j.split()
-            for w in l:
-                if w in repository.emotive:
-                    score+=1
-            for w in repository.nouns:
-                if w in j:
-                    score+=1
-            for w in repository.people:
-                if w in j:
-                    score+=1
-            score+= s.count('\"')
-            score+= s.count(u"\u201C")
-            score+= s.count(u"\u201D")
-            senScored.append([score, s])
-        senScored.sort(key=lambda x:x[0], reverse=True)
-        goodSen=[i[1] for i in senScored[:6-len(allQuotes)]]
 
-    #pp.pprint(allQuotes)
-    #pp.pprint(goodSen)
-    goodSen= allQuotes+goodSen
+    blocks=[]
+    blockQuote= soup.find_all('blockquote') # pull block quotes 
+    for line in blockQuote:
+        
+        blocks.append(line.get_text())
+
+    pp.pprint(blocks)
+    blocks= trim(blocks, 180,80)
+    blocks.sort(key= lambda q:score(q), reverse=True)
+    
+    remain =numQuotes-len(blocks)
+    if remain<=0:
+        goodSen= blocks[:numQuotes]
+    else:
+        goodSen+= blocks
+        allQuotes= trim(allQuotes,180, 80)
+        allQuotes.sort(key= lambda q:score(q), reverse=True)
+        remain2= remain-len(allQuotes)
+
+        if remain2<=0:
+            goodSen+= allQuotes[:remain]
+        else:
+            goodSen+= allQuotes
+            #
+            # Future Pan: Make it able to combine sentences instead of trimming...
+            #
+            allSen = trim(allSen,180,80)
+            allSen.sort(key= lambda q:score(q), reverse=True)
+
+            goodSen+= allSen[:remain2]
+
+
     #for i in range(len(allQuotes)):
     #    q=allQuotes[i]
     #    q+=str(len(q))
@@ -330,6 +338,41 @@ def parse(argv):
             break
 
     return goodSen,content, images
+
+def score(s):
+    score=0
+
+    j=s.lower()
+    for p in punctuation:
+        j=j.replace(p, ' ')
+    l=j.split()
+    for w in l:
+        if w in repository.emotive:
+            score+=2
+        if w in repository.personal:
+            score+=3
+    for w in repository.nouns:
+        if w in j:
+            score+=1
+    for w in repository.people:
+        if w in j:
+            score+=1
+    score+= s.count('\"')
+    score+= s.count(u"\u201C")
+    score+= s.count(u"\u201D")
+
+    return score
+def trim(sentences, max, min):
+    tempQuotes = []
+    if len(sentences)>0:
+        for quote in sentences:
+            length = len(quote);
+            if length >min and length <max:
+                tempQuotes.append(quote)
+
+    return tempQuotes
+
+
 def multiSplit(string):
     if not string:
         return []

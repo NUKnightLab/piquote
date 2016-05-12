@@ -56,3 +56,6 @@ emotive= ['proud', 'integral', 'challenge', 'bans', 'importance', 'discuss', 'sh
                         'firmly', 'brand', 'established', 'outsider', 'candidates', 'end literally', 'only', 'choices', 'acceptable', 
                         'traditional', 'exactly', 'activism', 'beyond', 'issues', 'salesmanship', 'abilities', 'investment', 
                         'advocate', 'raising', 'inflated', 'deserve', 'pigeonholed', 'mean', 'happy', 'definitely', 'scapegoat' ]
+
+
+personal= ['i', 'me', 'my', 'we', 'our', 'he', 'him', 'his', 'she', 'her', 'hers', 'thier', 'them']
