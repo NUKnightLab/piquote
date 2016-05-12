@@ -891,7 +891,7 @@ body:after {
     color: #EEE;
     font-family: Lora, Georgia, "Times New Roman", Times, serif;
     padding: 0;
-    font-size: 22.8px;
+    font-size: 18.8px;
     line-height: 30.4px;
     font-weight: 200;
     border: none;
@@ -902,15 +902,15 @@ body:after {
     text-shadow: 2px 2px 4px rgba(0, 0, 0, .75)
 }
 .kl-quotecomposition .kl-quotecomposition-container .kl-quotecomposition-text blockquote p {
-    text-align: left
+    text-align: center
 }
 .kl-quotecomposition .kl-quotecomposition-container .kl-quotecomposition-text blockquote p[contenteditable=true] {
     padding: 5px;
-    outline: 2px dashed rgba(204, 204, 204, .25)
+    /*outline: 2px dashed rgba(204, 204, 204, .25)*/
 }
-.kl-quotecomposition .kl-quotecomposition-container .kl-quotecomposition-text blockquote p[contenteditable=true]:hover {
+/*.kl-quotecomposition .kl-quotecomposition-container .kl-quotecomposition-text blockquote p[contenteditable=true]:hover {
     outline: 2px dashed #CCC
-}
+}*/
 .kl-quotecomposition .kl-quotecomposition-container .kl-quotecomposition-text blockquote p:before {
     content: "“";
     color: #bbb
@@ -929,16 +929,16 @@ body:after {
     bottom: 0;
     right: 0
 }
-.kl-quotecomposition .kl-quotecomposition-container .kl-quotecomposition-text blockquote cite[contenteditable=true] {
+/*.kl-quotecomposition .kl-quotecomposition-container .kl-quotecomposition-text blockquote cite[contenteditable=true] {
     outline: 2px dashed rgba(204, 204, 204, .25)
 }
 .kl-quotecomposition .kl-quotecomposition-container .kl-quotecomposition-text blockquote cite[contenteditable=true]:hover {
     outline: 2px dashed #CCC
 }
 .kl-quotecomposition .kl-quotecomposition-container .kl-quotecomposition-text blockquote cite:before {
-    content: "— ";
+    content: "—";
     color: #bbb
-}
+}*/
 .kl-quotecomposition .kl-quotecomposition-container .kl-quotecomposition-background {
     width: 505px;
     height: 283px;

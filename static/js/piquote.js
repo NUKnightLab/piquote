@@ -4199,10 +4199,10 @@ KL.QuoteComposition = KL.Class.extend({
 	_update: function() {
 		this._el.blockquote_p.innerHTML = this.data.quote;
 		this._el.citation.innerHTML = this.data.cite;
-		this._el.image.style.backgroundImage = "url('" + this.data.image + "')";
+		this._el.image.style.backgroundImage = "url('" + this.data.image + "')"
 
-		this._el.blockquote_p.contentEditable = this.options.editable;
-		this._el.citation.contentEditable = this.options.editable;
+		/*this._el.blockquote_p.contentEditable = this.options.editable;
+		this._el.citation.contentEditable = this.options.editable;*/
 		
 	},
 

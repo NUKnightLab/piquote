@@ -4403,7 +4403,7 @@ figure.composition .composition-text blockquote {
     color: #EEE;
     font-family: Lora, Georgia, "Times New Roman", Times, serif;
     padding: 0;
-    font-size: 22.8px;
+    font-size: 18.8px;
     line-height: 30.4px;
     font-weight: 200;
     border: none;
@@ -4414,9 +4414,9 @@ figure.composition .composition-text blockquote {
 }
 figure.composition .composition-text blockquote p[contenteditable=true] {
     padding: 5px;
-    outline: 2px dashed rgba(204, 204, 204, .25)
+    /*outline: 2px dashed rgba(204, 204, 204, .25)*/
 }
-figure.composition .composition-text blockquote p[contenteditable=true]:hover {
+/*figure.composition .composition-text blockquote p[contenteditable=true]:hover {
     outline: 2px dashed #CCC
 }
 figure.composition .composition-text blockquote p:before {
@@ -4442,7 +4442,7 @@ figure.composition .composition-text blockquote cite[contenteditable=true]:hover
 figure.composition .composition-text blockquote cite:before {
     content: "— ";
     color: #bbb
-}
+}*/
 figure.composition #composition-image {
     z-index: 1;
     width: 100%;
@@ -4510,7 +4510,7 @@ figure.composition #composition-image {
     color: #EEE;
     font-family: Lora, Georgia, "Times New Roman", Times, serif;
     padding: 0;
-    font-size: 22.8px;
+    font-size: 18.8px;
     line-height: 30.4px;
     font-weight: 200;
     border: none;
@@ -4521,9 +4521,9 @@ figure.composition #composition-image {
     text-shadow: 2px 2px 4px rgba(0, 0, 0, .75)
 }
 .kl-quotecomposition .kl-quotecomposition-container .kl-quotecomposition-text blockquote p {
-    text-align: left
+    text-align: center
 }
-.kl-quotecomposition .kl-quotecomposition-container .kl-quotecomposition-text blockquote p[contenteditable=true] {
+/*.kl-quotecomposition .kl-quotecomposition-container .kl-quotecomposition-text blockquote p[contenteditable=true] {
     padding: 5px;
     outline: 2px dashed rgba(204, 204, 204, .25)
 }
@@ -4537,7 +4537,7 @@ figure.composition #composition-image {
 .kl-quotecomposition .kl-quotecomposition-container .kl-quotecomposition-text blockquote p:after {
     content: "”";
     color: #bbb
-}
+}*/
 .kl-quotecomposition .kl-quotecomposition-container .kl-quotecomposition-text blockquote cite {
     padding: 5px;
     padding-right: 10px;
@@ -4548,14 +4548,14 @@ figure.composition #composition-image {
     bottom: 0;
     right: 0
 }
-.kl-quotecomposition .kl-quotecomposition-container .kl-quotecomposition-text blockquote cite[contenteditable=true] {
+/*.kl-quotecomposition .kl-quotecomposition-container .kl-quotecomposition-text blockquote cite[contenteditable=true] {
     outline: 2px dashed rgba(204, 204, 204, .25)
 }
 .kl-quotecomposition .kl-quotecomposition-container .kl-quotecomposition-text blockquote cite[contenteditable=true]:hover {
     outline: 2px dashed #CCC
-}
+}*/
 .kl-quotecomposition .kl-quotecomposition-container .kl-quotecomposition-text blockquote cite:before {
-    content: "— ";
+    /*content: "— ";*/
     color: #bbb
 }
 .kl-quotecomposition .kl-quotecomposition-container .kl-quotecomposition-background {
