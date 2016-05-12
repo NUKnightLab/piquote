@@ -210,13 +210,29 @@ def parse(argv):
 
     allQuotes.sort(key= lambda q:len(q), reverse=True)
 
+    """"
+    Errors with this algorithm:
+    
+    -If you use a while loop it will exit as soon as you find one quote that
+        doesnt meet your criteria, and you wont check all quotes.
+        Also I think you have the lengths backward; should be ...<180 and ... >80.
+
+    
     if len(allQuotes)>0:
         while len(allQuotes[0])>180: #max quote size
             allQuotes=allQuotes[1:]
         allQuotes.reverse()
         while len(allQuotes[0])<80: # min quote size
             allQuotes=allQuotes[1:]
-        allQuotes.reverse()
+        allQuotes.reverse()"""
+    tempQuotes = []
+    if len(allQuotes)>0:
+        for quote in allQuotes:
+            length = len(quote);
+            if length >80 and length <180:
+                tempQuotes.append(quote)
+    allQuotes = tempQuotes
+
 
     goodSen=[]
     if len(allQuotes)<6:
