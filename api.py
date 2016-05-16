@@ -128,7 +128,7 @@ def more_stuff(item,more_items,target_len=None):
 def formatArrays(text, best, others, final):
     if final:
         t=text[:2]
-        t=t[0]+t[0]+t[1]+t[1]
+        t=[t[0],t[0],t[1],t[1]]
         i=[best]
         for j in range(3):
             if others:

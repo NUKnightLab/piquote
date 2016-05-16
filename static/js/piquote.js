@@ -4577,8 +4577,10 @@ KL.Piquote = (function() {
 			
 			// composition.addTo(this.el.editor_content);
 			// this.quote_compositions.push(composition);
-
-			this.createComposition(this.quotes[i], false);
+			if (i%2==0)
+				this.createComposition(this.quotes[i], "right");
+			else
+				this.createComposition(this.quotes[i], false);
 
 		}
 
