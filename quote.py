@@ -351,10 +351,10 @@ def score(s):
             score+=2
         if w in repository.personal:
             score+=3
-    for w in repository.nouns:
+    for w in repository.proper:
         if w in j:
             score+=1
-    for w in repository.people:
+    for w in repository.phrase:
         if w in j:
             score+=1
     score+= s.count('\"')
