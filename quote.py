@@ -15,7 +15,7 @@ DictQuote={}
 final_quote=""
 final_image=""
 
-punctuation = [".", "!", "?", ")", "]", "\"", "'", u"\u201D", u"\u201C"] 
+punctuation = [".", "!", "?", ")", "]", "\"", "'", u"\u201D", u"\u201C", u"\u0027", u"\u0018", u"\u0019"] 
 prefixes = ['dr', 'vs', 'mr', 'mrs','ms' ,'prof', 'inc','jr','i.e']
 """
 emotive= ['feel', 'chill', 'fire', 'burn', 'feel the fire']
@@ -207,6 +207,12 @@ def parse(argv):
     for quote in allQuotes:
         ascii=ord(quote[1])
         if ascii>64 and ascii<91:
+            i=len(quote)-1
+            while quote[i] in punctuation:
+                i-=1
+            #i+=1
+            if quote[i]==",":
+                quote= quote[:i]+"."+quote[i+1:]
             tempQuotes.append(quote)
     allQuotes=tempQuotes
     

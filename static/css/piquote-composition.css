@@ -968,11 +968,14 @@ body:after {
     width: 60%;
     margin-left: 40%;
     background-color: transparent;
+    
     background-image: -webkit-linear-gradient(left, rgba(0, 0, 0, .0001) 0, rgba(0, 0, 0, .6) 15%);
     background-image: -o-linear-gradient(left, rgba(0, 0, 0, .0001) 0, rgba(0, 0, 0, .6) 15%);
     background-image: linear-gradient(to right, rgba(0, 0, 0, .0001) 0, rgba(0, 0, 0, .6) 15%);
     background-repeat: repeat-x;
+
     filter: progid: DXImageTransform.Microsoft.gradient(startColorstr='#00000000', endColorstr='#99000000', GradientType=1)
+
 }
 .kl-quotecomposition.kl-anchor-left .kl-quotecomposition-container .kl-quotecomposition-text blockquote p {
     text-align: left;
