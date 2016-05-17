@@ -4614,8 +4614,10 @@ KL.Piquote = (function() {
 			};
 
 			quote.quote = d.quote[i];
-
-			if (d.image[i]) {
+			if (i%2==1){
+				quote.image = "/img/piquotebackground.jpg"
+			}
+			else if (d.image[i]) {
 				quote.image = d.image[i];
 			} else {
 				quote.image = d.image[0];
