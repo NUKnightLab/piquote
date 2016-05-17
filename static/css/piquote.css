@@ -4346,8 +4346,6 @@ article {
     transition-delay: initial;
     overflow: hidden;
     text-align: center
-    margin-right: 20%;
-    margin-left: 20%;
 }
 #layout-editor:after,
 #layout-editor:before {
@@ -4365,6 +4363,7 @@ article {
 #layout-editor:after {
     clear: both
 }
+
 #layout-editor .editor-content {
     display: block;
     margin-bottom: 10px;
@@ -4377,9 +4376,10 @@ article {
     -webkit-flex-flow: row wrap;
     justify-content: center
 }
-/*#layout-editor figure.composition {
+
+#layout-editor figure.composition {
     display: inline-block
-}*/
+}
 figure.composition {
     position: relative;
     width: 505px;
@@ -4564,11 +4564,11 @@ figure.composition #composition-image {
     width: 505px;
     height: 283px;
     z-index: 2;
-    opacity: .5;
+    opacity: 0;
     position: absolute;
     top: 0;
     left: 0;
-    background-color: #000
+    /*background-color: #000*/
 }
 .kl-quotecomposition .kl-quotecomposition-container .kl-quotecomposition-image {
     z-index: 1;
