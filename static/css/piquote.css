@@ -4346,6 +4346,8 @@ article {
     transition-delay: initial;
     overflow: hidden;
     text-align: center
+    margin-right: 20%;
+    margin-left: 20%;
 }
 #layout-editor:after,
 #layout-editor:before {
@@ -4375,9 +4377,9 @@ article {
     -webkit-flex-flow: row wrap;
     justify-content: center
 }
-#layout-editor figure.composition {
+/*#layout-editor figure.composition {
     display: inline-block
-}
+}*/
 figure.composition {
     position: relative;
     width: 505px;
