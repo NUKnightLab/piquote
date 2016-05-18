@@ -4558,14 +4558,15 @@ KL.Piquote = (function() {
 
 	function makeTinyUrl(url)
 	{
-		xhr = new XDomainRequest();
-		xhr.open('GET', "http://tinyurl.com/api-create.php?url=" + url);
-	    xhr.onLoad = function(){
+		xhr = new XMLHttpRequest();
+		xhr.onload = function(data){
 	    		this.short_url= data.tinyurl;
 				console.log(this.short_url);
 
 			};
-	    	
+		xhr.open('GET', "http://tinyurl.com/api-create.php?url=" + url);
+	    
+	    //console.log("attempt small url");	
 	}
 
 	
@@ -4578,7 +4579,8 @@ KL.Piquote = (function() {
 			this.createQuoteObjects(d);
 			this.createCompositions(d);
 		});
-		//makeTinyUrl(this.el.url_input.value)
+		
+		makeTinyUrl(this.el.url_input.value);
 	};
 
 	// CREATE COMPOSITIONS

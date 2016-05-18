@@ -45,6 +45,15 @@ def parse(argv):
     mergeComma=[]
     proper=[]
     for para in paras:
+
+
+        """
+        cl = para.get('class')
+        if 'tweet' in str(cl).lower():
+            continue
+            """ # filters tweets
+
+
         text=para.get_text()
         web= para.find_all('webonly')
         if web:
@@ -56,6 +65,7 @@ def parse(argv):
                 text=text1+text2
        
         text.encode('utf-8')
+
 
         sentences= []
         quotes= []
@@ -247,11 +257,11 @@ def parse(argv):
     blocks=[]
     blockQuote= soup.find_all('blockquote') # pull block quotes 
     for line in blockQuote:
-        
-        blocks.append(line.get_text())
+        if 'tweet' not in str(line.get('class')).lower():
+            blocks.append(line.get_text())
 
     #pp.pprint(blocks)
-    blocks= trim(blocks, 180,80)
+    blocks= trim(blocks, 170,80)
     blocks.sort(key= lambda q:score(q), reverse=True)
     
     remain =numQuotes-len(blocks)
@@ -259,9 +269,14 @@ def parse(argv):
         goodSen= blocks[:numQuotes]
     else:
         goodSen+= blocks
-        allQuotes= trim(allQuotes,180, 80)
+        allQuotes= trim(allQuotes,170, 80)
         allQuotes.sort(key= lambda q:score(q), reverse=True)
-        remain2= remain-len(allQuotes)
+
+        for q in allQuotes:
+            if q not in goodSen and len(goodSen)< numQuotes:
+                goodSen.append(q)
+
+        remain2= numQuotes- len(goodSen)
 
         if remain2<=0:
             goodSen+= allQuotes[:remain]
@@ -270,10 +285,14 @@ def parse(argv):
             #
             # Future Pan: Make it able to combine sentences instead of trimming...
             #
-            allSen = trim(allSen,180,80)
+            allSen = trim(allSen,170,80)
             allSen.sort(key= lambda q:score(q), reverse=True)
 
-            goodSen+= allSen[:remain2]
+            for s in allSen:
+                if s not in goodSen:
+                    goodSen.append(s)
+                    if len(goodSen) ==  numQuotes:
+                        break
 
 
     #for i in range(len(allQuotes)):
