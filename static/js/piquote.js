@@ -4233,12 +4233,12 @@ KL.QuoteComposition = KL.Class.extend({
 
 		// Create Buttons
 		this._el.button_group 			= KL.Dom.create("div", "btn-group", this._el.container);
-		//this._el.button_tweet 			= KL.Dom.create("div", "btn btn-default", this._el.button_group);
+		this._el.button_tweet 			= KL.Dom.create("div", "btn btn-default", this._el.button_group);
 		//this._el.button_download 		= KL.Dom.create("div", "btn btn-default", this._el.button_group);
 
-		this._el.button_anchor_left 	= KL.Dom.create("div", "btn btn-default", this._el.button_group);
-		this._el.button_anchor_center 	= KL.Dom.create("div", "btn btn-default", this._el.button_group);
-		this._el.button_anchor_right 	= KL.Dom.create("div", "btn btn-default", this._el.button_group);
+		//this._el.button_anchor_left 	= KL.Dom.create("div", "btn btn-default", this._el.button_group);
+		//this._el.button_anchor_center 	= KL.Dom.create("div", "btn btn-default", this._el.button_group);
+		//this._el.button_anchor_right 	= KL.Dom.create("div", "btn btn-default", this._el.button_group);
 		this._el.button_make 			= KL.Dom.create("div", "btn btn-primary btn-right", this._el.button_group);
 
 		//this._el.button_tweet.innerHTML = "Tweet";

@@ -2117,7 +2117,7 @@ fieldset[disabled] .btn-default:hover {
 }
 .btn-primary {
     color: #fff;
-    background-color: #2196f3;
+    background-color: #c5001a;
     border-color: transparent
 }
 .btn-primary.focus,
@@ -2128,7 +2128,7 @@ fieldset[disabled] .btn-default:hover {
 }
 .btn-primary:hover {
     color: #fff;
-    background-color: #0c7cd5;
+    background-color: #9d0014;
     border-color: transparent
 }
 .btn-primary.active,
@@ -4520,7 +4520,7 @@ figure.composition #composition-image {
     margin-left: 5%;
     margin-right: 5%;
     width: 100%;
-    text-shadow: 2px 2px 4px rgba(0, 0, 0, .75)
+    /*text-shadow: 2px 2px 4px rgba(0, 0, 0, .75)*/
 }
 .kl-quotecomposition .kl-quotecomposition-container .kl-quotecomposition-text blockquote p {
     text-align: center
