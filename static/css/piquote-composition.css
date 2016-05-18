@@ -874,7 +874,7 @@ body:after {
     position: relative;
     width: 505px;
     height: 283px;
-    background-color: #000;
+    background-color: #e4e3db;
     display: inline-block
 }
 .kl-quotecomposition .kl-quotecomposition-container .kl-quotecomposition-text {
@@ -888,21 +888,21 @@ body:after {
     overflow: hidden
 }
 .kl-quotecomposition .kl-quotecomposition-container .kl-quotecomposition-text blockquote {
-    color: #EEE;
+    color: #000000;
     font-family: Lora, Georgia, "Times New Roman", Times, serif;
     padding: 0;
     font-size: 18.8px;
-    line-height: 30.4px;
-    font-weight: 200;
+    line-height: 20.4px;
+    font-weight: 100;
     border: none;
     margin: 0;
     margin-left: 5%;
     margin-right: 5%;
     width: 100%;
-    text-shadow: 2px 2px 4px rgba(0, 0, 0, .75)
+    /*text-shadow: 2px 2px 4px rgba(0, 0, 0, .75)*/
 }
 .kl-quotecomposition .kl-quotecomposition-container .kl-quotecomposition-text blockquote p {
-    text-align: center
+    text-align: justify
 }
 .kl-quotecomposition .kl-quotecomposition-container .kl-quotecomposition-text blockquote p[contenteditable=true] {
     padding: 5px;
