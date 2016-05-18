@@ -250,7 +250,7 @@ def parse(argv):
         
         blocks.append(line.get_text())
 
-    pp.pprint(blocks)
+    #pp.pprint(blocks)
     blocks= trim(blocks, 180,80)
     blocks.sort(key= lambda q:score(q), reverse=True)
     
@@ -304,7 +304,9 @@ def parse(argv):
         #print(str)
         
         pieces= multiSplit(stri)
-        if source in pieces and 'logo' not in pieces and 'png' not in pieces and 'gif' not in pieces: #filter by source string
+        #if source in pieces and 'logo' not in pieces and 'png' not in pieces and 'gif' not in pieces and stri != None:
+        if 'logo' not in pieces and 'png' not in pieces and 'gif' not in pieces and stri != None and stri[:3] == 'htt': #filter by source string
+            #pp.pprint(stri)
             fileSize, dims=getsizes(stri)
             width, height= dims
             #w, h =jpeg_res(stri)
@@ -343,7 +345,15 @@ def parse(argv):
             content= i.get('content') # supposed to be a guarenteed good image for every article 'technically'
             break
 
-    return goodSen,content, images
+
+    heads = soup.find_all('h1')
+    head = ''
+    if heads[0]:
+        head = heads[0].get_text()
+
+    #pp.pprint(head)
+
+    return goodSen,content, images, head
 
 def score(s):
     score=0
@@ -390,6 +400,7 @@ from PIL import ImageFile
 
 def getsizes(uri):
     # get file size *and* image size (None if not known)
+
     file = urllib.urlopen(uri)
     size = file.headers.get("content-length")
     if size: size = int(size)

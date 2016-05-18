@@ -4552,6 +4552,24 @@ KL.Piquote = (function() {
 	// GRID URL
 	this.grid_url = "grid.json";
 
+	// extra bitly requirements
+
+	this.short_url= "";
+
+	function makeTinyUrl(url)
+	{
+		xhr = new XDomainRequest();
+		xhr.open('GET', "http://tinyurl.com/api-create.php?url=" + url);
+	    xhr.onLoad = function(){
+	    		this.short_url= data.tinyurl;
+				console.log(this.short_url);
+
+			};
+	    	
+	}
+
+	
+
 	// SCRAPE URL
 	this.scrape_url = function() {
 		var api_call = api_url + "?a=" + this.el.url_input.value;
@@ -4560,6 +4578,7 @@ KL.Piquote = (function() {
 			this.createQuoteObjects(d);
 			this.createCompositions(d);
 		});
+		//makeTinyUrl(this.el.url_input.value)
 	};
 
 	// CREATE COMPOSITIONS

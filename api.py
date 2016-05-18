@@ -65,10 +65,10 @@ def getResults():
     a = request.args.get('a', '')
     
     #Calling scrape.py for quote and Image
-    quotes_array,image, extras = quote.parse(a)
+    quotes_array,image, extras, title= quote.parse(a)
     q, i= formatArrays(quotes_array,image, extras, False)
     # more_stuff for prototyping purposes
-    j = jsonify(quote=q,image=i)
+    j = jsonify(quote=q,image=i, title=title)
 
     # return jsonify(image=image,quote=quote)
     j.headers['Access-Control-Allow-Origin'] = '*'
