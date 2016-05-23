@@ -4556,17 +4556,50 @@ KL.Piquote = (function() {
 
 	this.short_url= "";
 
-	function makeTinyUrl(url)
+	
+	function makeTinyUrl()
 	{
-		xhr = new XMLHttpRequest();
-		xhr.onload = function(data){
-	    		this.short_url= data.tinyurl;
-				console.log(this.short_url);
+		console.log('making');
+		//xhr = new XMLHttpRequest();
+		//xhr.onload = function(data){
+	   // 		this.short_url= data.tinyurl;
+		//		console.log(this.short_url);
 
-			};
-		xhr.open('GET', "http://tinyurl.com/api-create.php?url=" + url);
+		//	};
+		//xhr.open('GET', "http://tinyurl.com/api-create.php?url=" + url);
+
+		
+	    var gapiS = document.createElement("script");
+		gapiS.src="https://apis.google.com/js/client.js";
+		gapiS.onload= loadShortener();
+		document.head.appendChild(gapiS);
 	    
-	    //console.log("attempt small url");	
+	}
+	function loadShortener(){
+		console.log('loading');
+		var apiKey = 'AIzaSyASC58lRrtWhWemdzcHuknd-WMbrCTLj2A';
+		var i=0;
+  		while (!gapi){
+  			i++;
+  			console.log(i);
+  		}
+        gapi.client.setApiKey(apiKey);
+        console.log('loading2');
+        gapi.client.load('urlshortener', 'v1', shortReq);
+      
+	}
+
+	
+	function shortReq(){
+		console.log('requesting');
+		var request = gapi.client.urlshortener.url.insert({
+          'longUrl': this.el.url_input.value
+        });
+        request.execute(setShort);
+	}
+	function setShort(resp){
+		this.short_url= resp.id;
+		console.log(resp.id);
 	}
 
 	
@@ -4580,7 +4613,7 @@ KL.Piquote = (function() {
 			this.createCompositions(d);
 		});
 		
-		makeTinyUrl(this.el.url_input.value);
+		makeTinyUrl();
 	};
 
 	// CREATE COMPOSITIONS
@@ -4602,6 +4635,7 @@ KL.Piquote = (function() {
 				this.createComposition(this.quotes[i], "right");
 			else
 				this.createComposition(this.quotes[i], false);
+			//console.log(i);
 
 		}
 
@@ -4734,7 +4768,6 @@ KL.Piquote = (function() {
 	
 
 })();
-
 
 
 

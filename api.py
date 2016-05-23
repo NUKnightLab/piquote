@@ -65,6 +65,7 @@ def getResults():
     a = request.args.get('a', '')
     
     #Calling scrape.py for quote and Image
+    #print 'before parse'
     quotes_array,image, extras, title= quote.parse(a)
     q, i= formatArrays(quotes_array,image, extras, False)
     # more_stuff for prototyping purposes

@@ -327,6 +327,8 @@ def parse(argv):
         if 'logo' not in pieces and 'png' not in pieces and 'gif' not in pieces and stri != None and stri[:3] == 'htt': #filter by source string
             #pp.pprint(stri)
             fileSize, dims=getsizes(stri)
+            if dims==None:
+                continue
             width, height= dims
             #w, h =jpeg_res(stri)
             if width>200 and height>200: # filter by image size
@@ -367,8 +369,11 @@ def parse(argv):
 
     heads = soup.find_all('h1')
     head = ''
-    if heads[0]:
-        head = heads[0].get_text()
+
+
+    if heads!=[]:
+        if heads[0]:
+            head = heads[0].get_text()
 
     #pp.pprint(head)
 
