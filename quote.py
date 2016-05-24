@@ -261,7 +261,7 @@ def parse(argv):
             blocks.append(line.get_text())
 
     #pp.pprint(blocks)
-    blocks= trim(blocks, 170,80)
+    blocks= trim(blocks, 165,80)
     blocks.sort(key= lambda q:score(q), reverse=True)
     
     remain =numQuotes-len(blocks)
@@ -269,7 +269,7 @@ def parse(argv):
         goodSen= blocks[:numQuotes]
     else:
         goodSen+= blocks
-        allQuotes= trim(allQuotes,170, 80)
+        allQuotes= trim(allQuotes,165, 80)
         allQuotes.sort(key= lambda q:score(q), reverse=True)
 
         for q in allQuotes:
@@ -279,19 +279,20 @@ def parse(argv):
         remain2= numQuotes- len(goodSen)
 
         if remain2<=0:
-            goodSen+= allQuotes[:remain]
+            #goodSen+= allQuotes[:remain]
+            do=0
         else:
-            goodSen+= allQuotes
+            #goodSen+= allQuotes
             #
             # Future Pan: Make it able to combine sentences instead of trimming...
             #
-            allSen = trim(allSen,170,80)
+            allSen = trim(allSen,165,80)
             allSen.sort(key= lambda q:score(q), reverse=True)
 
             for s in allSen:
                 if s not in goodSen:
                     goodSen.append(s)
-                    if len(goodSen) ==  numQuotes:
+                    if len(goodSen) >=  numQuotes:
                         break
 
 
