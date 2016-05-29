@@ -4266,14 +4266,14 @@ footer .copyright {
 }
 #cover p.explainer {
     text-align: center;
-    font-size: 15px;
+    font-size: 19px;
     line-height: 24px;
     color: #999
 }
 #cover h2.intro {
     font-size: 42px;
     font-weight: 500;
-    color: #c5001a;
+    color: #000;
     margin-top: 0;
     margin-bottom: 10px;
     font-family: "Apres RE", Lato, "Helvetica Neue", Helvetica, Arial, sans-serif
@@ -4301,8 +4301,8 @@ footer .copyright {
     width: 100%;
     margin-bottom: auto;
     min-height: 20px;
-    background-color: #efeeea;
-    background-color: #efeeea;
+    background-color: #ffffff;
+    background-color: #ffffff;
     border-top: 1px solid #CCC;
     border-bottom: 1px solid #CCC;
     border-radius: 0;
@@ -4495,7 +4495,7 @@ figure.composition #composition-image {
     position: relative;
     width: 505px;
     height: 283px;
-    background-color: #e4e3db;
+    background-color: #cccccc;
     display: inline-block
 }
 .kl-quotecomposition .kl-quotecomposition-container .kl-quotecomposition-text {
@@ -4568,7 +4568,7 @@ figure.composition #composition-image {
     position: absolute;
     top: 0;
     left: 0;
-    background-color: #e4e3db
+    background-color: #cccccc
 }
 .kl-quotecomposition .kl-quotecomposition-container .kl-quotecomposition-image {
     z-index: 1;
@@ -4588,7 +4588,7 @@ figure.composition #composition-image {
     opacity: 1;
     width: 40%;
     margin-left: 60%;
-    background-color: #e4e3db;
+    background-color: #cccccc;
     /*background-image: -webkit-linear-gradient(left, rgba(0, 0, 0, .0001) 0, rgba(0, 0, 0, .6) 15%);
     background-image: -o-linear-gradient(left, rgba(0, 0, 0, .0001) 0, rgba(0, 0, 0, .6) 15%);
     background-image: linear-gradient(to right, rgba(0, 0, 0, .0001) 0, rgba(0, 0, 0, .6) 15%);*/
@@ -4604,7 +4604,7 @@ figure.composition #composition-image {
 .kl-quotecomposition.kl-anchor-left .kl-quotecomposition-container .kl-quotecomposition-background {
     opacity: 1;
     width: 40%;
-    background-color: #e4e3db;
+    background-color: #cccccc;
     /*background-image: -webkit-linear-gradient(left, rgba(0, 0, 0, .6) 85%, rgba(0, 0, 0, .0001) 100%);
     background-image: -o-linear-gradient(left, rgba(0, 0, 0, .6) 85%, rgba(0, 0, 0, .0001) 100%);
     background-image: linear-gradient(to right, rgba(0, 0, 0, .6) 85%, rgba(0, 0, 0, .0001) 100%);*/
