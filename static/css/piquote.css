@@ -4375,6 +4375,7 @@ article {
     display: flex;
     -webkit-flex-flow: row wrap;
     justify-content: center
+    z-index: 4;
 }
 
 #layout-editor figure.composition {
@@ -4396,7 +4397,7 @@ figure.composition .composition-text {
     align-items: center;
     justify-content: center;
     height: 100%;
-    z-index: 2
+    z-index: 3
 }
 figure.composition .composition-text #example-one {
     margin-bottom: 10px
