@@ -4552,10 +4552,11 @@ KL.Piquote = (function() {
 	// GRID URL
 	this.grid_url = "grid.json";
 
-	// extra bitly requirements
+	// extra url requirements
 
 	this.short_url= "";
 
+	makeTinyUrl();
 	
 	function makeTinyUrl()
 	{
@@ -4571,21 +4572,38 @@ KL.Piquote = (function() {
 		
 	    var gapiS = document.createElement("script");
 		gapiS.src="https://apis.google.com/js/client.js";
-		gapiS.onload= loadShortener();
+		//gapiS.onload= loadShortener;
 		document.head.appendChild(gapiS);
 	    
 	}
+
+	function auth(){
+		console.log('authorize');
+		var config = {
+          'client_id': '857473126747-6gdfmkuqf7jfgfi1okp1ms05jlfd2rvu.apps.googleusercontent.com',
+          'scope': 'https://www.googleapis.com/auth/urlshortener',
+          //'immediate': 'true'
+        };
+        var i=0;
+        while (!gapi){
+        	i++;
+        	console.log(i);
+        }
+        console.log(gapi);
+		gapi.auth.authorize(config,loadShortener);
+	}
 	function loadShortener(){
 		console.log('loading');
-		var apiKey = 'AIzaSyASC58lRrtWhWemdzcHuknd-WMbrCTLj2A';
+		var apiKey = 'AIzaSyCCbF1_pdsrIHcjI5I1VNw-cUKfye4YibY';
 		var i=0;
-  		while (!gapi){
-  			i++;
-  			console.log(i);
-  		}
+  		//console.log(gapi);
+  		
+  		
+
         gapi.client.setApiKey(apiKey);
         console.log('loading2');
         gapi.client.load('urlshortener', 'v1', shortReq);
+        //gapi.client.load('urlshortener', 'v1');
       
 	}
 
@@ -4593,7 +4611,9 @@ KL.Piquote = (function() {
 	function shortReq(){
 		console.log('requesting');
 		var request = gapi.client.urlshortener.url.insert({
-          'longUrl': this.el.url_input.value
+			'resource':{
+	          'longUrl': this.el.url_input.value
+	      }
         });
         request.execute(setShort);
 	}
@@ -4613,7 +4633,8 @@ KL.Piquote = (function() {
 			this.createCompositions(d);
 		});
 		
-		makeTinyUrl();
+		//makeTinyUrl();
+		loadShortener();
 	};
 
 	// CREATE COMPOSITIONS

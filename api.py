@@ -67,7 +67,7 @@ def getResults():
     #Calling scrape.py for quote and Image
     #print 'before parse'
     quotes_array,image, extras, title= quote.parse(a)
-    q, i= formatArrays(quotes_array,image, extras, False)
+    q, i= formatArrays(quotes_array,image, extras, True)
     # more_stuff for prototyping purposes
     j = jsonify(quote=q,image=i, title=title)
 
