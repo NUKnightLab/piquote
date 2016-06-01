@@ -4528,8 +4528,8 @@ KL.Piquote = (function() {
 	this.options = {
 		width: 				window.innerWidth,
 		height: 			window.innerHeight,
-		grid_item_width: 	251,
-		grid_item_height: 	141
+		grid_item_width: 	window.innerWidth/4,
+		grid_item_height: 	window.innerHeight/4
 	};
 
 	// GRID ITEMS

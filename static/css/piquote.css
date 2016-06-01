@@ -4375,7 +4375,6 @@ article {
     display: flex;
     -webkit-flex-flow: row wrap;
     justify-content: center
-    z-index: 4;
 }
 
 #layout-editor figure.composition {
@@ -4397,7 +4396,7 @@ figure.composition .composition-text {
     align-items: center;
     justify-content: center;
     height: 100%;
-    z-index: 3
+    z-index: 2
 }
 figure.composition .composition-text #example-one {
     margin-bottom: 10px
@@ -4407,7 +4406,7 @@ figure.composition .composition-text blockquote {
     font-family: Lora, Georgia, "Times New Roman", Times, serif;
     padding: 0;
     font-size: 18.8px;
-    line-height: 20.4px;
+    line-height: 25.4px;
     /*font-weight: 100;*/
     border: none;
     margin: 0;
@@ -4451,7 +4450,7 @@ figure.composition #composition-image {
     width: 100%;
     opacity: .5;
     width: 305px;
-    height: 283px;
+    height: 243px;
     background-size: cover;
     background-position: center center
 }
@@ -4495,7 +4494,7 @@ figure.composition #composition-image {
 .kl-quotecomposition .kl-quotecomposition-container {
     position: relative;
     width: 505px;
-    height: 283px;
+    height: 220px;
     background-color: #cccccc;
     display: inline-block
 }
@@ -4513,8 +4512,8 @@ figure.composition #composition-image {
     color: #000000;
     font-family: Lora, Georgia, "Times New Roman", Times, serif;
     padding: 0;
-    font-size: 18.8px;
-    line-height: 30.4px;
+    font-size: 16.8px;
+    line-height: 25.4px;
     font-weight: 200;
     border: none;
     margin: 0;
@@ -4545,7 +4544,8 @@ figure.composition #composition-image {
     padding: 5px;
     padding-right: 10px;
     display: block;
-    font-size: 12px;
+    font-size: 16.8px;
+    line-height: 25.4px;
     text-align: right;
     position: absolute;
     bottom: 0;
@@ -4563,7 +4563,7 @@ figure.composition #composition-image {
 }
 .kl-quotecomposition .kl-quotecomposition-container .kl-quotecomposition-background {
     width: 505px;
-    height: 283px;
+    height: 220px;
     z-index: 2;
     opacity: 0;
     position: absolute;
@@ -4573,45 +4573,46 @@ figure.composition #composition-image {
 }
 .kl-quotecomposition .kl-quotecomposition-container .kl-quotecomposition-image {
     z-index: 1;
-    width: 60%;
-    width: 505px;
-    height: 283px;
+    width: 100%;
+    max-width: 305px;
+    height: 220px;
     background-size: cover;
     background-position: left
 }
 .kl-quotecomposition.kl-anchor-right .kl-quotecomposition-container .kl-quotecomposition-text blockquote p {
-    text-align: right;
+    text-align: left;
     margin-left: 65%;
-    font-size: 19px;
-    line-height: 26.6px
+    margin-top: 5%;
+    font-size: 16.8px;
+    line-height: 25.4px
 }
 .kl-quotecomposition.kl-anchor-right .kl-quotecomposition-container .kl-quotecomposition-background {
     opacity: 1;
-    width: 40%;
-    margin-left: 60%;
+    width: 35%;
+    margin-left: 65%;
     background-color: #cccccc;
     /*background-image: -webkit-linear-gradient(left, rgba(0, 0, 0, .0001) 0, rgba(0, 0, 0, .6) 15%);
     background-image: -o-linear-gradient(left, rgba(0, 0, 0, .0001) 0, rgba(0, 0, 0, .6) 15%);
-    background-image: linear-gradient(to right, rgba(0, 0, 0, .0001) 0, rgba(0, 0, 0, .6) 15%);*/
+    background-image: linear-gradient(to right, rgba(0, 0, 0, .0001) 0, rgba(0, 0, 0, .6) 15%);
     background-repeat: repeat-x;
-    filter: progid: DXImageTransform.Microsoft.gradient(startColorstr='#00000000', endColorstr='#99000000', GradientType=1)
+    filter: progid: DXImageTransform.Microsoft.gradient(startColorstr='#00000000', endColorstr='#99000000', GradientType=1)*/
 }
-.kl-quotecomposition.kl-anchor-left .kl-quotecomposition-container .kl-quotecomposition-text blockquote p {
+/*.kl-quotecomposition.kl-anchor-left .kl-quotecomposition-container .kl-quotecomposition-text blockquote p {
     text-align: left;
     margin-right: 65%;
-    font-size: 19px;
-    line-height: 26.6px
+    font-size: 18.8px;
+    line-height: 25.4px
 }
 .kl-quotecomposition.kl-anchor-left .kl-quotecomposition-container .kl-quotecomposition-background {
     opacity: 1;
     width: 40%;
     background-color: #cccccc;
-    /*background-image: -webkit-linear-gradient(left, rgba(0, 0, 0, .6) 85%, rgba(0, 0, 0, .0001) 100%);
+    background-image: -webkit-linear-gradient(left, rgba(0, 0, 0, .6) 85%, rgba(0, 0, 0, .0001) 100%);
     background-image: -o-linear-gradient(left, rgba(0, 0, 0, .6) 85%, rgba(0, 0, 0, .0001) 100%);
-    background-image: linear-gradient(to right, rgba(0, 0, 0, .6) 85%, rgba(0, 0, 0, .0001) 100%);*/
+    background-image: linear-gradient(to right, rgba(0, 0, 0, .6) 85%, rgba(0, 0, 0, .0001) 100%);
     background-repeat: repeat-x;
     filter: progid: DXImageTransform.Microsoft.gradient(startColorstr='#99000000', endColorstr='#00000000', GradientType=1)
-}
+}*/
 .kl-slider {
     width: 100%;
     height: 100%;
