@@ -4105,7 +4105,9 @@ KL.QuoteComposition = KL.Class.extend({
 			quote: "Quote goes here, gonna make it longer to see",
 			cite: "Citation",
 			image: "Description",
-			credit: ""
+			credit: "",
+			headline: "Article Title",
+			url: ""
 		};
 	
 		//Options
@@ -4121,7 +4123,7 @@ KL.QuoteComposition = KL.Class.extend({
 		// Merge Data and Options
 		KL.Util.mergeData(this.options, options);
 		KL.Util.mergeData(this.data, data);
-		
+		//console.log(this.data.headline)
 		
 
 		
@@ -4220,6 +4222,62 @@ KL.QuoteComposition = KL.Class.extend({
 		this._el.container.className = this.options.classname;
 	},
 
+	formatedText: function (){
+		var text = "";
+		var headline = this.data.headline;
+		var url = this.data.url;
+		function decToHex(i){
+			var t="";
+			while (i>0){
+				t= hexLet(i%16)+t;
+				i=Math.floor(i/16);
+			}
+			return t;
+		}
+		function hexLet(i){
+			switch(i){
+				case 10:
+					return "A";
+				case 11:
+					return "B";
+				case 12:
+					return "C";
+				case 13:
+					return "D";
+				case 14:
+					return "E";
+				case 15:
+					return "F";
+				default:
+					return i.toString();
+			}
+		}
+		for(var i=0; i<headline.length; i++){
+			var chara = headline[i];
+			var c = headline.charCodeAt(i);
+			if((c>47&&c<58)||(c>64&&c<91)||(c>96&&c<123)){
+				text+=chara;
+				
+			}
+			else{
+				var hex = decToHex(c);
+				if(hex=="201C"||hex=="201D"){
+					hex = "22";
+				}
+				else if(hex=="0027"||hex=="2018"||hex=="2019"){
+					hex = "27";
+				}
+				if (hex.length>2){
+					hex= hex.substring(0,2)+"%"+hex.substring(2,4);
+				}
+				text+= "%"+ hex;
+			}
+		}
+		text+= "%20"
+		text+= url;
+		return text;
+	},
+
 	_initLayout: function () {
 		
 		// Create Layout
@@ -4241,7 +4299,8 @@ KL.QuoteComposition = KL.Class.extend({
 		//this._el.button_anchor_right 	= KL.Dom.create("div", "btn btn-default", this._el.button_group);
 		this._el.button_make 			= KL.Dom.create("div", "btn btn-primary btn-right", this._el.button_group);
 
-		//this._el.button_tweet.innerHTML = "Tweet";
+		var text = this.formatedText();
+		this._el.button_tweet.innerHTML = "<a class=\"twitter-share-button\" href=\"https://twitter.com/intent/tweet?text=" + text+"\">Tweet</a>"
 		//this._el.button_download.innerHTML = "Download";
 
 		this._el.button_anchor_left.innerHTML = "<span class='glyphicon glyphicon-align-left'></span>";
@@ -4604,6 +4663,7 @@ KL.Piquote = (function() {
         console.log('loading2');
         gapi.client.load('urlshortener', 'v1', shortReq);
         //gapi.client.load('urlshortener', 'v1');
+        
       
 	}
 
@@ -4620,6 +4680,7 @@ KL.Piquote = (function() {
 	function setShort(resp){
 		this.short_url= resp.id;
 		console.log(resp.id);
+		this.scrape_url();
 	}
 
 	
@@ -4628,13 +4689,17 @@ KL.Piquote = (function() {
 	this.scrape_url = function() {
 		var api_call = api_url + "?a=" + this.el.url_input.value;
 
+
+
+		
+
 		KL.getJSON(api_call ,function(d) {
 			this.createQuoteObjects(d);
 			this.createCompositions(d);
 		});
 		
 		//makeTinyUrl();
-		loadShortener();
+		
 	};
 
 	// CREATE COMPOSITIONS
@@ -4672,7 +4737,7 @@ KL.Piquote = (function() {
 
 	};
 
-	this.createComposition = function(d, anchor) {
+	this.createComposition = function(d, anchor) { 
 		var composition = new KL.QuoteComposition(d, {anchor:anchor});
 		composition.addTo(this.el.editor_content);
 		this.quote_compositions.push(composition);
@@ -4686,10 +4751,13 @@ KL.Piquote = (function() {
 				quote: "",
 				cite: "",
 				credit: "",
-				image: ""
+				image: "",
+				headline: "",
+				url: this.short_url
 			};
 
 			quote.quote = d.quote[i];
+			quote.headline = d.headline;
 			if (i%2==1){
 				quote.image = "/img/piquotebackground.jpg"
 			}
@@ -4757,7 +4825,8 @@ KL.Piquote = (function() {
 	/*	EVENTS
 	================================================== */
 	this._onQuoteCreate = function(e) {
-		this.scrape_url();
+		loadShortener();
+		//this.scrape_url();
 	};
 
 	this._onSliderLoaded = function(e) {

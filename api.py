@@ -69,7 +69,7 @@ def getResults():
     quotes_array,image, extras, title= quote.parse(a)
     q, i= formatArrays(quotes_array,image, extras, True)
     # more_stuff for prototyping purposes
-    j = jsonify(quote=q,image=i, title=title)
+    j = jsonify(quote=q,image=i, headline=title)
 
     # return jsonify(image=image,quote=quote)
     j.headers['Access-Control-Allow-Origin'] = '*'

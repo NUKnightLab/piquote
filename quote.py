@@ -15,7 +15,7 @@ DictQuote={}
 final_quote=""
 final_image=""
 
-punctuation = [".", "!", "?", ")", "]", "\"", "'", u"\u201D", u"\u201C", u"\u0027", u"\u0018", u"\u0019"] 
+punctuation = [".", "!", "?", ")", "]", "\"", "'", u"\u201D", u"\u201C", u"\u0027", u"\u2018", u"\u2019",] 
 prefixes = ['dr', 'vs', 'mr', 'mrs','ms' ,'prof', 'inc','jr','i.e']
 """
 emotive= ['feel', 'chill', 'fire', 'burn', 'feel the fire']
