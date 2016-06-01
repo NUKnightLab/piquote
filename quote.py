@@ -269,6 +269,8 @@ def parse(argv):
         goodSen= blocks[:numQuotes]
     else:
         goodSen+= blocks
+        #print goodSen
+        #print allQuotes
         allQuotes= trim(allQuotes,165, 80)
         allQuotes.sort(key= lambda q:score(q), reverse=True)
 
@@ -277,7 +279,8 @@ def parse(argv):
                 goodSen.append(q)
 
         remain2= numQuotes- len(goodSen)
-
+        #print goodSen
+        #print remain2
         if remain2<=0:
             #goodSen+= allQuotes[:remain]
             do=0
@@ -286,9 +289,10 @@ def parse(argv):
             #
             # Future Pan: Make it able to combine sentences instead of trimming...
             #
+            #print allSen
             allSen = trim(allSen,165,80)
             allSen.sort(key= lambda q:score(q), reverse=True)
-
+            #print allSen
             for s in allSen:
                 if s not in goodSen:
                     goodSen.append(s)
@@ -353,11 +357,15 @@ def parse(argv):
                     elif 'Related' in d:
                         good= False
                         break
+                    elif 'extra' in c:
+                        good= False
+                        break
                 if good:
                     images.append(stri)
             #pp.pprint(str(w)+ "/"+str(H)+ " - "+ stri)
 
     #pp.pprint(source)    
+    
     #pp.pprint(images)
 
     content=''                                
@@ -417,7 +425,7 @@ def trim(sentences, max, min):
 def multiSplit(string):
     if not string:
         return []
-    seperated= string.replace('/',' ').replace('.', ' ').replace('_', ' ').split()
+    seperated= string.replace('/',' ').replace('.', ' ').replace('_', ' ').replace('&', ' ').split()
     return seperated
 
 import urllib
