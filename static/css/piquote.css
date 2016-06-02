@@ -4140,7 +4140,6 @@ footer .copyright {
     color: #666;
     background-color: #F3F3F3;
     position: relative;
-    bottom: 0;
     z-index: 1;
     font-size: 14px;
     padding-top: 100px
@@ -4450,7 +4449,7 @@ figure.composition #composition-image {
     z-index: 1;
     width: 100%;
     opacity: .5;
-    width: 305px;
+    width: 280px;
     height: 243px;
     background-size: cover;
     background-position: center center
@@ -4496,7 +4495,7 @@ figure.composition #composition-image {
     position: relative;
     width: 505px;
     height: 220px;
-    background-color: #cccccc;
+    background-color: #000;
     display: inline-block
 }
 .kl-quotecomposition .kl-quotecomposition-container .kl-quotecomposition-text {
@@ -4510,7 +4509,7 @@ figure.composition #composition-image {
     overflow: hidden
 }
 .kl-quotecomposition .kl-quotecomposition-container .kl-quotecomposition-text blockquote {
-    color: #000000;
+    color: #fff;
     font-family: Lora, Georgia, "Times New Roman", Times, serif;
     padding: 0;
     font-size: 16.8px;
@@ -4570,7 +4569,7 @@ figure.composition #composition-image {
     position: absolute;
     top: 0;
     left: 0;
-    background-color: #cccccc
+    background-color: #000
 }
 .kl-quotecomposition .kl-quotecomposition-container .kl-quotecomposition-image {
     z-index: 1;
@@ -4591,7 +4590,7 @@ figure.composition #composition-image {
     opacity: 1;
     width: 35%;
     margin-left: 65%;
-    background-color: #cccccc;
+    background-color: #000;
     /*background-image: -webkit-linear-gradient(left, rgba(0, 0, 0, .0001) 0, rgba(0, 0, 0, .6) 15%);
     background-image: -o-linear-gradient(left, rgba(0, 0, 0, .0001) 0, rgba(0, 0, 0, .6) 15%);
     background-image: linear-gradient(to right, rgba(0, 0, 0, .0001) 0, rgba(0, 0, 0, .6) 15%);
