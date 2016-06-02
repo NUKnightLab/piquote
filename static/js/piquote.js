@@ -4180,8 +4180,77 @@ KL.QuoteComposition = KL.Class.extend({
 		if (!window.location.origin) {
   			window.location.origin = window.location.protocol + "//" + window.location.hostname + (window.location.port ? ':' + window.location.port: '');
 		}
-		var win = window.open(window.location.origin + "/composition.html" + url_vars, '_blank');
-  		win.focus();
+		//var win = window.open(window.location.origin + "/composition.html" + url_vars, '_blank');
+  		//win.focus();
+  		this.renImg();
+	},
+
+	renImg: function(){
+		 var canvas = document.getElementById("canvas");
+		 var context = canvas.getContext("2d");
+		 var imageObj = new Image();
+		 var quote= this.data.quote;
+		 var anc=this.options.anchor;
+		 var quotes= this.fixQuote(anc);
+		 imageObj.onload = function(){
+		     
+		     context.fillStyle="#CCCCCC";
+		     context.fillRect(0,0,canvas.width, canvas.height);
+		     context.drawImage(imageObj, 0, (canvas.height-imageObj.height)/2);
+		     context.fillRect(canvas.width*(65/100),0,canvas.width*(35/100), canvas.height);
+		     context.fillStyle="#000000";
+		     context.font = "18.8px Lora";
+		     var x,y, spacer;
+		     spacer=30;
+		     if (anc=="right"){
+		     	x=canvas.width*(63/100);
+		     	y=canvas.height*(20/100);
+		     }
+		     else{
+		     	x=30;
+		     	y=canvas.height*(40/100);
+		     }
+		     for(var i=0; i<quotes.length;i++){
+		     	context.fillText(quotes[i], x, y);
+		     	y+=spacer;
+		     }
+		     
+		     
+		     // open the image in a new browser tab
+		     // the user can right-click and save that image
+		     //var win=window.open();
+		     //win.document.write("<img src='"+canvas.toDataURL()+"'/>");    
+
+		 };
+		 imageObj.src = this.data.image;
+	},
+	fixQuote: function(anchor){
+		var linebreak;
+		if(anchor=="right"){
+
+
+
+			linebreak = 22;
+		}
+		else{
+			linebreak=61;
+		}
+		var text = this.data.quote;
+		var newT= [];
+		var old= 0;
+		var lastS=0;
+		for(var i=0; i<text.length; i++){
+			if(text[i]==" "){
+				lastS=i;
+			}
+			if (i-old>linebreak){
+				newT.push(text.substring(old, lastS));
+				old= lastS;
+			}
+		}
+		newT.push(text.substring(old, text.length));
+
+		return newT;
 	},
 
 	_onLoaded: function() {
@@ -4225,7 +4294,7 @@ KL.QuoteComposition = KL.Class.extend({
 	formatedText: function (){
 		var text = "";
 		var headline = this.data.headline;
-		var url = this.data.url;
+		//var url = this.data.url;
 		function decToHex(i){
 			var t="";
 			while (i>0){
@@ -4273,8 +4342,8 @@ KL.QuoteComposition = KL.Class.extend({
 				text+= "%"+ hex;
 			}
 		}
-		text+= "%20"
-		text+= url;
+		//text+= "%20"
+		//text+= url;
 		return text;
 	},
 
@@ -4300,7 +4369,7 @@ KL.QuoteComposition = KL.Class.extend({
 		this._el.button_make 			= KL.Dom.create("div", "btn btn-primary btn-right", this._el.button_group);
 
 		var text = this.formatedText();
-		this._el.button_tweet.innerHTML = "<a class=\"twitter-share-button\" href=\"https://twitter.com/intent/tweet?text=" + text+"\">Tweet</a>"
+		this._el.button_tweet.innerHTML = "<a class=\"twitter-share-button\" href=\"https://twitter.com/intent/tweet?text=" + text+"&url="+this.data.url+"&hashtags=piquote\">Tweet</a>"
 		//this._el.button_download.innerHTML = "Download";
 
 		this._el.button_anchor_left.innerHTML = "<span class='glyphicon glyphicon-align-left'></span>";

@@ -2331,8 +2331,15 @@
             quote_text: KL.Dom.get("kl-quote-text"),
             cite: KL.Dom.get("kl-quote-cite"),
             image: KL.Dom.get("kl-quote-image")
-        }, this.options = {
+        }, 
+        this.options = {
             width: window.innerWidth,
             height: window.innerHeight
-        }, this.vars = KL.Util.getUrlVars(window.location.href), this.el.quote_text.innerHTML = decodeURIComponent(this.vars.quote), this.el.cite.innerHTML = decodeURIComponent(this.vars.cite), this.el.image.style.backgroundImage = "url(" + this.vars.image + ")", this.el.composition.className = "kl-quotecomposition kl-anchor-" + this.vars.anchor
+        }, 
+        
+        this.vars = KL.Util.getUrlVars(window.location.href), 
+        this.el.quote_text.innerHTML = decodeURIComponent(this.vars.quote), 
+        this.el.cite.innerHTML = decodeURIComponent(this.vars.cite), 
+        this.el.image.style.backgroundImage = "url(" + this.vars.image + ")",
+     this.el.composition.className = "kl-quotecomposition kl-anchor-" + this.vars.anchor
     }();
