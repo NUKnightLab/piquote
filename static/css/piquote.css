@@ -526,7 +526,7 @@ mark {
 }
 a.text-primary:focus,
 a.text-primary:hover {
-    color: #0c7cd5
+    color: #000
 }
 .text-success {
     color: #4caf50
@@ -562,7 +562,7 @@ a.text-danger:hover {
 }
 a.bg-primary:focus,
 a.bg-primary:hover {
-    background-color: #0c7cd5
+    background-color: #000
 }
 .bg-success {
     background-color: #dff0d8
@@ -2117,25 +2117,25 @@ fieldset[disabled] .btn-default:hover {
 }
 .btn-primary {
     color: #fff;
-    background-color: #c5001a;
+    background-color: #000;
     border-color: transparent
 }
 .btn-primary.focus,
 .btn-primary:focus {
     color: #fff;
-    background-color: #0c7cd5;
+    background-color: #000;
     border-color: transparent
 }
 .btn-primary:hover {
     color: #fff;
-    background-color: #9d0014;
+    background-color: #ffcd05;
     border-color: transparent
 }
 .btn-primary.active,
 .btn-primary:active,
 .open>.dropdown-toggle.btn-primary {
     color: #fff;
-    background-color: #0c7cd5;
+    background-color: #000;
     border-color: transparent
 }
 .btn-primary.active.focus,
@@ -2148,7 +2148,7 @@ fieldset[disabled] .btn-default:hover {
 .open>.dropdown-toggle.btn-primary:focus,
 .open>.dropdown-toggle.btn-primary:hover {
     color: #fff;
-    background-color: #0a68b4;
+    background-color: #000;
     border-color: transparent
 }
 .btn-primary.active,
@@ -4140,6 +4140,7 @@ footer .copyright {
     color: #666;
     background-color: #F3F3F3;
     position: relative;
+    bottom: 0;
     z-index: 1;
     font-size: 14px;
     padding-top: 100px
@@ -4383,7 +4384,7 @@ article {
 figure.composition {
     position: relative;
     width: 505px;
-    height: 283px;
+    height: 220px;
     background-color: #000;
     display: flex;
     align-items: center;

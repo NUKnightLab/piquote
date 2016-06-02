@@ -4300,7 +4300,7 @@ KL.QuoteComposition = KL.Class.extend({
 		this._el.button_make 			= KL.Dom.create("div", "btn btn-primary btn-right", this._el.button_group);
 
 		var text = this.formatedText();
-		this._el.button_tweet.innerHTML = "<a class=\"twitter-share-button\" href=\"https://twitter.com/intent/tweet?text=" + text+"\">Tweet</a>"
+		this._el.button_tweet.innerHTML = "<a class=\"twitter-share-button\" href=\"https://twitter.com/intent/tweet?text=" + text+"\"><img src=\"css/twitterlogo.png\" alt=\"twitter logo\" height=\"30px\"> Tweet</a>"
 		//this._el.button_download.innerHTML = "Download";
 
 		this._el.button_anchor_left.innerHTML = "<span class='glyphicon glyphicon-align-left'></span>";
@@ -4587,8 +4587,8 @@ KL.Piquote = (function() {
 	this.options = {
 		width: 				window.innerWidth,
 		height: 			window.innerHeight,
-		grid_item_width: 	window.innerWidth/4,
-		grid_item_height: 	window.innerHeight/4
+		grid_item_width: 	500,
+		grid_item_height: 	200
 	};
 
 	// GRID ITEMS
