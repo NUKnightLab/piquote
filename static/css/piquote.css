@@ -4367,6 +4367,8 @@ article {
 #layout-editor .editor-content {
     display: block;
     margin-bottom: 10px;
+    margin-right:10%;
+    margin-left:10%;
     height: 100%;
     display: -webkit-box;
     display: -moz-box;
