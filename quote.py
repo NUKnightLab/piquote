@@ -381,8 +381,11 @@ def parse(argv):
 
 
     if heads!=[]:
-        if heads[0]:
-            head = heads[0].get_text()
+        for h in heads:
+            #print h;
+            if "logo" not in str(h.get('class')):
+                head = h.get_text()
+                break
 
     #pp.pprint(head)
 

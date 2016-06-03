@@ -2825,6 +2825,8 @@ KL.LoadIt = (function (doc) {
 
 
   KL.getJSON = Zepto.getJSON;
+  KL.post= Zepto.post;
+  KL.get= Zepto.get;
 	KL.ajax = Zepto.ajax;
 })(KL)
 
@@ -4182,10 +4184,18 @@ KL.QuoteComposition = KL.Class.extend({
 		}
 		//var win = window.open(window.location.origin + "/composition.html" + url_vars, '_blank');
   		//win.focus();
-  		this.renImg();
+  		this.renImg(function(){});
 	},
-
-	renImg: function(){
+	imageWin: function(){
+		var c=document.getElementById("canvas");
+		var d=c.toDataURL("image/png");
+		var w=window.open('about:blank','image from canvas');
+		w.document.write("<img src='"+d+"' alt='from canvas'/>");
+	},
+	postIt: function(){
+		
+	},
+	renImg: function(callback){
 		 var canvas = document.getElementById("canvas");
 		 var context = canvas.getContext("2d");
 		 var imageObj = new Image();
@@ -4193,12 +4203,14 @@ KL.QuoteComposition = KL.Class.extend({
 		 var anc=this.options.anchor;
 		 var quotes= this.fixQuote(anc);
 		 imageObj.onload = function(){
-		     
-		     context.fillStyle="#CCCCCC";
-		     context.fillRect(0,0,canvas.width, canvas.height);
-		     context.drawImage(imageObj, 0, (canvas.height-imageObj.height)/2);
-		     context.fillRect(canvas.width*(65/100),0,canvas.width*(35/100), canvas.height);
+		 	
+		     console.log("sorcing");
 		     context.fillStyle="#000000";
+		     context.fillRect(0,0,canvas.width, canvas.height);
+		     //context.drawImage(imageObj, (canvas.width-imageObj.width)/2, (canvas.height-imageObj.height)/2);
+		     context.drawImage(imageObj, 0,0, 220/imageObj.height*imageObj.width,220);
+		     context.fillRect(canvas.width*(60/100),0,canvas.width*(40/100), canvas.height);
+		     context.fillStyle="#FFFFFF";
 		     context.font = "18.8px Lora";
 		     var x,y, spacer;
 		     spacer=30;
@@ -4215,14 +4227,89 @@ KL.QuoteComposition = KL.Class.extend({
 		     	y+=spacer;
 		     }
 		     
-		     
+		     callback();
 		     // open the image in a new browser tab
 		     // the user can right-click and save that image
 		     //var win=window.open();
 		     //win.document.write("<img src='"+canvas.toDataURL()+"'/>");    
 
 		 };
+		 //imageObj.setAttribute('crossOrigin', 'http://localhost:5000');
 		 imageObj.src = this.data.image;
+
+	},
+	upload: function(){
+		/*
+		KL.get("https://api.twitter.com/oauth/request_token", function(){
+			KL.get("https://api.twitter.com/oauth/authorize", function(){
+				KL.post("https://upload.twitter.com/1.1/media/upload.json?media_data="+document.getElementById("canvas").toDataURL(),  
+				function(d){
+					this.imageNum=d.media_id_string;
+					console.log(this.imageNum);
+				});
+			});
+		});
+
+	*/
+		var options = {consumerKey: 'TQO3IypIXNgKUgqU4R2R8B0nI', consumerSecret: '8PxFGZjF3mlpE6tUjoLHdxO6NUvsv1Ugt9am7O6mOSjBANN0DK', callbackUrl: "http://165.124.144.146:5000"};
+		//var cb = window.plugins.ChildBrowser;
+		oauth = OAuth(options);
+        oauth.get('https://api.twitter.com/oauth/request_token',
+                function(data) {
+                    requestParams = data.text;
+                     // This opens the Twitter authorization / sign in page
+                    var win = window.open('https://api.twitter.com/oauth/authorize?' + data.text);
+  					win.focus();
+                    // Here will will track the change in URL of ChildBrowser
+                },
+                function(data) {
+                    console.log("ERROR: " + JSON.stringify(data));
+                }
+        );
+
+
+
+
+
+
+
+		/*
+		function createCORSRequest(method, url) {
+		  var xhr = new XMLHttpRequest();
+		  if ("withCredentials" in xhr) {
+
+		    // Check if the XMLHttpRequest object has a "withCredentials" property.
+		    // "withCredentials" only exists on XMLHTTPRequest2 objects.
+		    xhr.open(method, url, true);
+
+		  } else if (typeof XDomainRequest != "undefined") {
+
+		    // Otherwise, check if XDomainRequest.
+		    // XDomainRequest only exists in IE, and is IE's way of making CORS requests.
+		    xhr = new XDomainRequest();
+		    xhr.open(method, url);
+
+		  } else {
+
+		    // Otherwise, CORS is not supported by the browser.
+		    xhr = null;
+
+		  }
+		  return xhr;
+		}
+
+		var myxhr = createCORSRequest('GET', "https://upload.twitter.com/1.1/media/upload.json?media_data="+document.getElementById("canvas").toDataURL());
+		if (!myxhr) {
+		  throw new Error('CORS not supported');
+		}
+
+		myxhr.onload = function() {
+		 var responseText = myxhr.responseText;
+		 console.log(responseText);
+		 // process the response.
+		};
+		myxhr.send();
+		*/
 	},
 	fixQuote: function(anchor){
 		var linebreak;
@@ -4339,7 +4426,9 @@ KL.QuoteComposition = KL.Class.extend({
 				if (hex.length>2){
 					hex= hex.substring(0,2)+"%"+hex.substring(2,4);
 				}
-				text+= "%"+ hex;
+				if (hex.length>1){
+					text+= "%"+ hex;
+				}
 			}
 		}
 		//text+= "%20"
