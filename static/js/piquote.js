@@ -4184,7 +4184,7 @@ KL.QuoteComposition = KL.Class.extend({
 		}
 		//var win = window.open(window.location.origin + "/composition.html" + url_vars, '_blank');
   		//win.focus();
-  		this.renImg(function(){});
+  		
 	},
 	imageWin: function(){
 		var c=document.getElementById("canvas");
@@ -4192,11 +4192,21 @@ KL.QuoteComposition = KL.Class.extend({
 		var w=window.open('about:blank','image from canvas');
 		w.document.write("<img src='"+d+"' alt='from canvas'/>");
 	},
-	postIt: function(){
-		
+	download: function(canvas, link){
+		//var c=document.getElementById("canvas");
+		var c= canvas;
+	    //var image = c.toDataURL("image/png").replace("image/png", "image/octet-stream"); // here is the most important part because if you dont replace you will get a DOM 18 exception.
+	    var image = c.toDataURL("image/png");   
+	    console.log(this);
+	    link.href=image;
+	   	
+		 
+	
 	},
-	renImg: function(callback){
-		 var canvas = document.getElementById("canvas");
+	renImg: function(canvas,callback, link){
+		 //var canvas = document.getElementById("canvas");
+		 canvas.height=220;
+		 canvas.width=505;
 		 var context = canvas.getContext("2d");
 		 var imageObj = new Image();
 		 var quote= this.data.quote;
@@ -4204,7 +4214,7 @@ KL.QuoteComposition = KL.Class.extend({
 		 var quotes= this.fixQuote(anc);
 		 imageObj.onload = function(){
 		 	
-		     console.log("sorcing");
+		     //console.log("sorcing");
 		     context.fillStyle="#000000";
 		     context.fillRect(0,0,canvas.width, canvas.height);
 		     //context.drawImage(imageObj, (canvas.width-imageObj.width)/2, (canvas.height-imageObj.height)/2);
@@ -4216,7 +4226,7 @@ KL.QuoteComposition = KL.Class.extend({
 		     spacer=30;
 		     if (anc=="right"){
 		     	x=canvas.width*(63/100);
-		     	y=canvas.height*(20/100);
+		     	y=canvas.height*(14/100);
 		     }
 		     else{
 		     	x=30;
@@ -4227,14 +4237,14 @@ KL.QuoteComposition = KL.Class.extend({
 		     	y+=spacer;
 		     }
 		     
-		     callback();
+		     callback(canvas, link);
 		     // open the image in a new browser tab
 		     // the user can right-click and save that image
 		     //var win=window.open();
 		     //win.document.write("<img src='"+canvas.toDataURL()+"'/>");    
 
 		 };
-		 //imageObj.setAttribute('crossOrigin', 'http://localhost:5000');
+		 imageObj.setAttribute('crossOrigin', 'http://localhost:5000');
 		 imageObj.src = this.data.image;
 
 	},
@@ -4268,48 +4278,6 @@ KL.QuoteComposition = KL.Class.extend({
         );
 
 
-
-
-
-
-
-		/*
-		function createCORSRequest(method, url) {
-		  var xhr = new XMLHttpRequest();
-		  if ("withCredentials" in xhr) {
-
-		    // Check if the XMLHttpRequest object has a "withCredentials" property.
-		    // "withCredentials" only exists on XMLHTTPRequest2 objects.
-		    xhr.open(method, url, true);
-
-		  } else if (typeof XDomainRequest != "undefined") {
-
-		    // Otherwise, check if XDomainRequest.
-		    // XDomainRequest only exists in IE, and is IE's way of making CORS requests.
-		    xhr = new XDomainRequest();
-		    xhr.open(method, url);
-
-		  } else {
-
-		    // Otherwise, CORS is not supported by the browser.
-		    xhr = null;
-
-		  }
-		  return xhr;
-		}
-
-		var myxhr = createCORSRequest('GET', "https://upload.twitter.com/1.1/media/upload.json?media_data="+document.getElementById("canvas").toDataURL());
-		if (!myxhr) {
-		  throw new Error('CORS not supported');
-		}
-
-		myxhr.onload = function() {
-		 var responseText = myxhr.responseText;
-		 console.log(responseText);
-		 // process the response.
-		};
-		myxhr.send();
-		*/
 	},
 	fixQuote: function(anchor){
 		var linebreak;
@@ -4464,7 +4432,11 @@ KL.QuoteComposition = KL.Class.extend({
 		this._el.button_anchor_left.innerHTML = "<span class='glyphicon glyphicon-align-left'></span>";
 		this._el.button_anchor_center.innerHTML = "<span class='glyphicon glyphicon-align-center'></span>";
 		this._el.button_anchor_right.innerHTML = "<span class='glyphicon glyphicon-align-right'></span>";
-		this._el.button_make.innerHTML = "<span class='glyphicon glyphicon-circle-arrow-down'></span> Save";
+		this._el.button_make.innerHTML = "<span class='glyphicon glyphicon-circle-arrow-down'></span> ";
+
+		this._el.button_make_inner= KL.Dom.create("a", "", this._el.button_make);
+		this._el.button_make_inner.innerHTML = "Save"
+		this._el.button_make_inner.download= 'piquote.png';
 
 		KL.DomEvent.addListener(this._el.button_anchor_left, 'click', this._onAnchorLeft, this);
 		KL.DomEvent.addListener(this._el.button_anchor_right, 'click', this._onAnchorRight, this);
@@ -4483,6 +4455,9 @@ KL.QuoteComposition = KL.Class.extend({
 		}
 		
 		this._update();
+
+		var can= document.createElement('canvas');
+		this.renImg(can, this.download, this._el.button_make_inner);
 	},
 	
 	_initEvents: function () {
