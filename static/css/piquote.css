@@ -4273,7 +4273,7 @@ footer .copyright {
 #cover h2.intro {
     font-size: 42px;
     font-weight: 500;
-    color: #000;
+    color: #ca5529;
     margin-top: 0;
     margin-bottom: 10px;
     font-family: "Apres RE", Lato, "Helvetica Neue", Helvetica, Arial, sans-serif
@@ -4293,7 +4293,9 @@ footer .copyright {
     font-family: "Apres RE", Lato, "Helvetica Neue", Helvetica, Arial, sans-serif
 }
 #cover .btn.btn-default {
-    border-color: #CCC
+    background-color: #5bb75b;
+    border-color: #398139;
+    color: #FFFFFF;
 }
 #cover #cover-content {
     z-index: 2;
