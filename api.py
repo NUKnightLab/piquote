@@ -62,12 +62,12 @@ def screen_shot():
 #Ajax call after entering the URL 
 @app.route('/getResults',methods=['GET'])
 def getResults():
-    a = request.args.get('a', '')
-    
+    url = request.args.get('url', '')
+    print url
     #Calling scrape.py for quote and Image
     #print 'before parse'
-    quotes_array,image, extras, title= quote.parse(a)
-    q, i= formatArrays(quotes_array,image, extras, True)
+    quotes_array,image, alternate_image_array, title = quote.parse(url)
+    q, i= formatArrays(quotes_array,image, alternate_image_array, True)
     # more_stuff for prototyping purposes
     j = jsonify(quote=q,image=i, headline=title)
 

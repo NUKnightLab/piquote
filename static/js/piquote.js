@@ -4820,7 +4820,7 @@ KL.Piquote = (function() {
 
 	// SCRAPE URL
 	this.scrape_url = function() {
-		var api_call = api_url + "?a=" + this.el.url_input.value;
+		var api_call = api_url + "?url=" + this.el.url_input.value;
 
 
 
