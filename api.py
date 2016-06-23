@@ -126,26 +126,25 @@ def more_stuff(item,more_items,target_len=None):
         l.append(extra)
     
     return l
-def formatArrays(best, text, others, final):
-    if len(text) > 2:
-        if final:
-            t=text[:2]
-            t=[t[0],t[0],t[1],t[1]]
-            i=[best]
-            for j in range(3):
-                if others:
-                    i.append(random.choice(others))
-                else:
-                    i.append(best)
-            return t, i
-        else:
-            i=[best]
-            for j in range(len(text)-1):
-                if others:
-                    i.append(random.choice(others))
-                else:
-                    i.append(best)
-            return text, i
+def formatArrays(text, best, others, final):
+    if final:
+        t=text[:2]
+        t=[t[0],t[0],t[1],t[1]]
+        i=[best]
+        for j in range(3):
+            if others:
+                i.append(random.choice(others))
+            else:
+                i.append(best)
+        return t, i
+    else:
+        i=[best]
+        for j in range(len(text)-1):
+            if others:
+                i.append(random.choice(others))
+            else:
+                i.append(best)
+        return text, i
 
 if __name__ == '__main__':
     class Usage(Exception):
