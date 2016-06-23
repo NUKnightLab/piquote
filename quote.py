@@ -27,17 +27,39 @@ for word in emotive:
     if word in s:
         score +=1
 """
-def parse(argv):
+def extract_para_text(para):
+    "refactoring--is 'webonly' a thing?"
+    text=para.get_text()
+    web= para.find_all('webonly')
+    if web:
+        for w in web:
+            s=w.string
+            i=text.find(s)
+            text1= text[:i]
+            text2= text[i+len(s):]
+            text=text1+text2
+
+    return text#.encode('utf-8')
+
+def parse(url):
+    print url
+    r  = requests.get(url)
+    data = r.text
+    soup = BeautifulSoup(data,from_encoding='utf8')
+
+    quotes_array = parse_quotes(soup)
+    image = parse_og_image(soup)
+    alternate_image_array = parse_alternates(url, soup)
+    title = parse_title(soup)
+
+    return quotes_array, image, alternate_image_array, title
+
+def parse_quotes(soup):
 
     found_text=0    
     
     text=""
-    r  = requests.get(argv)
-    data = r.text
-    soup = BeautifulSoup(data,from_encoding='utf8')
     paras = soup.find_all('p')
-    img= soup.find_all('img')
-    img2= soup.find_all('meta')
                 
     allQuotes=[]
     allSen = []
@@ -53,20 +75,7 @@ def parse(argv):
             continue
             """ # filters tweets
 
-
-        text=para.get_text()
-        web= para.find_all('webonly')
-        if web:
-            for w in web:
-                s=w.string
-                i=text.find(s)
-                text1= text[:i]
-                text2= text[i+len(s):]
-                text=text1+text2
-       
-        text.encode('utf-8')
-
-
+        text = extract_para_text(para)
         sentences= []
         quotes= []
 
@@ -105,7 +114,7 @@ def parse(argv):
                 # all the cases for when a period doesn't end a sentence
                 do=0
                 #continue
-            elif c== "." or c=="!" or c=="?" or c==";": # end of a sentence
+            elif c in ".!?":
                 j=i
                 while j<len(text) and text[j] in punctuation:
                     j+=1
@@ -175,7 +184,7 @@ def parse(argv):
                     wasQ=True
                 mightMer=False
                 mergeC=False
-            elif ord(c)>64 and ord(c)<91: # CAPITOL LETTER
+            elif c.isupper(): # CAPITOL LETTER
                 lastCap = i
                 if capC==0:
                     properStart=i
@@ -206,12 +215,6 @@ def parse(argv):
     for i in merge:
         allQuotes.pop(i+mod)
         mod-=1
-
-    properU=[]
-    for line in proper:
-        if line not in properU:
-            properU.append(line) # a list of unique proper names, unused for now
-
 
     tempQuotes= []
     for quote in allQuotes:
@@ -298,21 +301,19 @@ def parse(argv):
                     goodSen.append(s)
                     if len(goodSen) >=  numQuotes:
                         break
+    return goodSen
 
+def parse_og_image(soup):
+    #this returns og image in privilaged spot
+    img2= soup.find_all('meta')                                
+    for i in img2:
+        prop=i.get('property')
+        if prop=="og:image":
+            return i.get('content') # supposed to be a guarenteed good image for every article 'technically'
+    return None
 
-    #for i in range(len(allQuotes)):
-    #    q=allQuotes[i]
-    #    q+=str(len(q))
-    #    allQuotes[i]=q
-
-   
-
-
-    #pp.pprint(properU)
-
-
-   
-    origin=multiSplit(argv)
+def parse_alternates(url, soup):
+    origin=multiSplit(url)
 
     if 'com' in origin: #find the hostname of the website
         source= origin[origin.index('com')-1]
@@ -323,6 +324,7 @@ def parse(argv):
 
     
     stri=""
+    img= soup.find_all('img')
     for i in img:
         stri=i.get('src')
         #print(str)
@@ -362,23 +364,11 @@ def parse(argv):
                         break
                 if good:
                     images.append(stri)
-            #pp.pprint(str(w)+ "/"+str(H)+ " - "+ stri)
+    return images
 
-    #pp.pprint(source)    
-    
-    #pp.pprint(images)
-
-    content=''                                
-    for i in img2:
-        prop=i.get('property')
-        if prop=="og:image":
-            content= i.get('content') # supposed to be a guarenteed good image for every article 'technically'
-            break
-
-
+def parse_title(soup):
     heads = soup.find_all('h1')
     head = ''
-
 
     if heads!=[]:
         for h in heads:
@@ -386,10 +376,7 @@ def parse(argv):
             if "logo" not in str(h.get('class')):
                 head = h.get_text()
                 break
-
-    #pp.pprint(head)
-
-    return goodSen,content, images, head
+    return head
 
 def score(s):
     score=0
@@ -452,7 +439,11 @@ def getsizes(uri):
     file.close()
     return size, None
 
-#parse('http://www.huffingtonpost.com/entry/david-cameron-dodgy_us_570bf446e4b0885fb50dc004')
+if __name__ == "__main__":
+    l = parse('http://www.huffingtonpost.com/entry/ted-cruz-gold-standard-republican_us_571196bfe4b06f35cb6fbac6?cps=gravity_2425_-8385480002285021224')
+    for i, x in enumerate(l):
+        print i, x
+#All text is in an image parse('http://luckypeach.com/how-to-overeat-professionally/')
 #parse('http://www.huffingtonpost.com/entry/ted-cruz-gold-standard-republican_us_571196bfe4b06f35cb6fbac6?cps=gravity_2425_-8385480002285021224')
 
 #parse('http://www.theblaze.com/stories/2016/04/12/trump-blasts-rnc-chairman-reince-priebus-should-be-ashamed-of-himself/')
