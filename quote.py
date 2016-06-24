@@ -47,19 +47,55 @@ def parse(url):
     data = r.text
     soup = BeautifulSoup(data,from_encoding='utf8')
 
-    quotes_array = parse_quotes(soup)
+    quotes_array = snag_sentence(soup)
     image = parse_og_image(soup)
     alternate_image_array = parse_alternates(url, soup)
     title = parse_title(soup)
 
     return quotes_array, image, alternate_image_array, title
 
-def parse_quotes(soup):
+caps = "([A-Z])"
+prefixes = "(Mr|St|Mrs|Ms|Dr)[.]"
+suffixes = "(Inc|Ltd|Jr|Sr|Co)"
+starters = "(Mr|Mrs|Ms|Dr|He\s|She\s|It\s|They\s|Their\s|Our\s|We\s|But\s|However\s|That\s|This\s|Wherever)"
+acronyms = "([A-Z][.][A-Z][.](?:[A-Z][.])?)"
+websites = "[.](com|net|org|io|gov)"
 
-    found_text=0    
+def snag_sentence(soup):
+    allSen = []
+
+    for paragraph in soup.find_all('p'):
+        text = paragraph.get_text()
+        text = " " + text + "  "
+        text = text.replace("\n"," ")
+        text = re.sub(prefixes,"\\1<prd>",text)
+        text = re.sub(websites,"<prd>\\1",text)
+        if "Ph.D" in text: text = text.replace("Ph.D.","Ph<prd>D<prd>")
+        text = re.sub("\s" + caps + "[.] "," \\1<prd> ",text)
+        text = re.sub(acronyms+" "+starters,"\\1<stop> \\2",text)
+        text = re.sub(caps + "[.]" + caps + "[.]" + caps + "[.]","\\1<prd>\\2<prd>\\3<prd>",text)
+        text = re.sub(caps + "[.]" + caps + "[.]","\\1<prd>\\2<prd>",text)
+        text = re.sub(" "+suffixes+"[.] "+starters," \\1<stop> \\2",text)
+        text = re.sub(" "+suffixes+"[.]"," \\1<prd>",text)
+        text = re.sub(" " + caps + "[.]"," \\1<prd>",text)
+        if "\"" in text: text = text.replace(".\"","\".")
+        if "!" in text: text = text.replace("!\"","\"!")
+        if "?" in text: text = text.replace("?\"","\"?")
+        text = text.replace(".",".<stop>")
+        text = text.replace("?","?<stop>")
+        text = text.replace("!","!<stop>")
+        text = text.replace("<prd>",".")
+        sentences = text.split("<stop>")
+        sentences = sentences[:-1]
+        sentences = [s.strip() for s in sentences]
+        allSen.append(sentences)
+    return allSen
+
+# def parse_quotes(soup):
+    # found_text=0    
     
-    text=""
-    paras = soup.find_all('p')
+    # text=""
+    # paras = soup.find_all('p')
                 
     allQuotes=[]
     allSen = []
@@ -228,14 +264,6 @@ def parse_quotes(soup):
                 quote= quote[:i]+"."+quote[i+1:]
             tempQuotes.append(quote)
     allQuotes=tempQuotes
-    
-    """
-    blockQuote= soup.find_all(attrs={ "class" : "pullquote" }) # pull block quotes -----NOT WORKING-----
-    for line in blockQuote:
-        allQuotes.push(line.get_text())
-    """
-
-    
 
     """"
     Errors with this algorithm:
