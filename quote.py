@@ -11,48 +11,6 @@ import dimensions
 import repository
 
 pp = pprint.PrettyPrinter(indent=4)
-DictQuote={}
-final_quote=""
-final_image=""
-
-punctuation = [".", "!", "?", ")", "]", "\"", "'", u"\u201D", u"\u201C", u"\u0027", u"\u2018", u"\u2019",] 
-prefixes = ['dr', 'vs', 'mr', 'mrs','ms' ,'prof', 'inc','jr','i.e']
-"""
-emotive= ['feel', 'chill', 'fire', 'burn', 'feel the fire']
-
-
-
-s='feel the fire'
-for word in emotive:
-    if word in s:
-        score +=1
-"""
-def extract_para_text(para):
-    "refactoring--is 'webonly' a thing?"
-    text=para.get_text()
-    web= para.find_all('webonly')
-    if web:
-        for w in web:
-            s=w.string
-            i=text.find(s)
-            text1= text[:i]
-            text2= text[i+len(s):]
-            text=text1+text2
-
-    return text#.encode('utf-8')
-
-def parse(url):
-    print url
-    r  = requests.get(url)
-    data = r.text
-    soup = BeautifulSoup(data,from_encoding='utf8')
-
-    quotes_array = snag_sentence(soup)
-    image = parse_og_image(soup)
-    alternate_image_array = parse_alternates(url, soup)
-    title = parse_title(soup)
-
-    return quotes_array, image, alternate_image_array, title
 
 caps = "([A-Z])"
 prefixes = "(Mr|St|Mrs|Ms|Dr)[.]"
@@ -61,7 +19,20 @@ starters = "(Mr|Mrs|Ms|Dr|He\s|She\s|It\s|They\s|Their\s|Our\s|We\s|But\s|Howeve
 acronyms = "([A-Z][.][A-Z][.](?:[A-Z][.])?)"
 websites = "[.](com|net|org|io|gov)"
 
-def snag_sentence(soup):
+def parse(url):
+    print url
+    r  = requests.get(url)
+    data = r.text
+    soup = BeautifulSoup(data,from_encoding='utf8')
+
+    quotes_array = parse_quotes(soup)
+    image = parse_og_image(soup)
+    alternate_image_array = parse_alternates(url, soup)
+    title = parse_title(soup)
+
+    return quotes_array, image, alternate_image_array, title
+
+def parse_quotes(soup):
     allSen = []
 
     for paragraph in soup.find_all('p'):
@@ -88,248 +59,10 @@ def snag_sentence(soup):
         sentences = text.split("<stop>")
         sentences = sentences[:-1]
         sentences = [s.strip() for s in sentences]
-        allSen.append(sentences)
+        sentence = u" ".join(sentences)
+        allSen.append(sentence)
+    allSen.sort(key = lambda sentence:score(sentence), reverse=True)
     return allSen
-
-# def parse_quotes(soup):
-    # found_text=0    
-    
-    # text=""
-    # paras = soup.find_all('p')
-                
-    allQuotes=[]
-    allSen = []
-    merge=[]
-    mergeComma=[]
-    proper=[]
-    for para in paras:
-
-
-        """
-        cl = para.get('class')
-        if 'tweet' in str(cl).lower():
-            continue
-            """ # filters tweets
-
-        text = extract_para_text(para)
-        sentences= []
-        quotes= []
-
-        
-        properStart=0
-        capC=0;
-
-        lastBegin=0 #tracks where the last sentence began
-        nextBegin=0 # tracks where the next sentence will begin, set when ending punctuation is found
-        lastSpace=0
-        inQuote= False
-        quoteStart = 0
-        lastCap=0 # last capitol symbol (ASCII only)
-        spaceQ=0 # number of spaces in a quote
-
-        wasQ= False # was there a quote in the last sentence (not if the qutoe ended it)
-        hadQ=False  # did the last sentence have a quote
-        mightMer=False #If the quote should be merged witht the previous one
-        mergeC=False
-
-        
-            
-        for i in range(len(text)):
-            if i == nextBegin: # sets the start of a new sentence
-                lastBegin=i
-            c=text[i]
-            if c in punctuation and c!="'":
-                if capC>1:
-                    proper.append(text[properStart:i])
-                capC=0
-            if c== " ": 
-                lastSpace=i
-                if inQuote:
-                    spaceQ+=1
-            elif c=="." and (text[lastSpace+1:i].lower() in prefixes or i-lastCap<4 or i-lastSpace<2): 
-                # all the cases for when a period doesn't end a sentence
-                do=0
-                #continue
-            elif c in ".!?":
-                j=i
-                while j<len(text) and text[j] in punctuation:
-                    j+=1
-                s = text[lastBegin:j]
-                sentences.append(s)
-                nextBegin= j+1
-
-                if capC>1:
-                    proper.append(text[properStart:i])
-                capC=0
-
-                #print str(hadQ)+"-----"
-                hadQ=False
-                if wasQ:
-                    hadQ=True
-                wasQ=False
-            elif c == "\"": # Ascii quote, toggles whether or not to be in a quote
-                if inQuote:
-                    q= text[quoteStart:i+1]
-                    #print str(quoteStart)+ " - ascii end"
-                    inQuote=False
-                    if spaceQ>3:
-                        if mightMer:
-                            place=len(quotes)+len(allQuotes)
-                            merge.append(place)
-                            if mergeC:
-                                mergeComma.append(place)
-                        quotes.append(q)
-                    spaceQ=0
-                    if not (nextBegin>i):
-                        wasQ=True
-                    mightMer=False
-                    mergeC= False
-                else:
-                    inQuote=True
-                    quoteStart=i
-                    #print str(quoteStart)+" - " +str(lastBegin)+"  //  "+ str(hadQ)
-                    if quoteStart-lastBegin<2 and hadQ:
-                        mightMer=True
-                    elif wasQ:
-                        mightMer=True
-                        mergeC=True
-
-            elif c==u'\u201c': #unicode quote begin
-                inQuote=True
-                quoteStart=i
-                #print str(quoteStart)+" - " +str(lastBegin)+"  //  "+ str(hadQ)
-                if quoteStart-lastBegin<2 and hadQ:
-                    mightMer=True
-                elif wasQ:
-                    mightMer=True
-                    mergeC=True
-            elif c==u'\u201d': # unicode quote end
-                q= text[quoteStart:i+1]
-                    #print str(quoteStart)+ " - ascii end"
-                inQuote=False
-                if spaceQ>3: # quote has 4 or more words
-                    if mightMer:
-                        place=len(quotes)+len(allQuotes)
-                        merge.append(place)
-                        if mergeC:
-                            mergeComma.append(place)
-
-                    quotes.append(q)
-                spaceQ=0
-                if not (nextBegin>i):
-                    wasQ=True
-                mightMer=False
-                mergeC=False
-            elif c.isupper(): # CAPITOL LETTER
-                lastCap = i
-                if capC==0:
-                    properStart=i
-                capC+=1
-            elif i-lastSpace<=1:
-                if capC>1:
-                    proper.append(text[properStart:i-1])
-                capC=0
-        #pp.pprint(quotes)
-        if len(quotes)>=1:
-            allQuotes+=quotes
-        if len(sentences)>=1:
-            allSen+=sentences
-        #pp.pprint(sentences)
-    #print merge
-
-    for i in merge: #merge is a list of indecies where the qutoe at i must merge witht he one at i-1
-        q1=allQuotes[i-1]
-        q2=allQuotes[i]
-        punc=q1[len(q1)-2]
-        q1=q1[:len(q1)-2]
-
-        if punc == "," and i not in mergeComma: #in the case "quote, " i said, "end of quote." / the comma shouldnt be replaced
-            punc= "."
-        qFin= q1 +punc+ " "+ q2[1:]
-        allQuotes[i-1]=qFin
-    mod=0
-    for i in merge:
-        allQuotes.pop(i+mod)
-        mod-=1
-
-    tempQuotes= []
-    for quote in allQuotes:
-        ascii=ord(quote[1])
-        if ascii>64 and ascii<91:
-            i=len(quote)-1
-            while quote[i] in punctuation:
-                i-=1
-            #i+=1
-            if quote[i]==",":
-                quote= quote[:i]+"."+quote[i+1:]
-            tempQuotes.append(quote)
-    allQuotes=tempQuotes
-
-    """"
-    Errors with this algorithm:
-    
-    -If you use a while loop it will exit as soon as you find one quote that
-        doesnt meet your criteria, and you wont check all quotes.
-        Also I think you have the lengths backward; should be ...<180 and ... >80.
-
-    
-    if len(allQuotes)>0:
-        while len(allQuotes[0])>180: #max quote size
-            allQuotes=allQuotes[1:]
-        allQuotes.reverse()
-        while len(allQuotes[0])<80: # min quote size
-            allQuotes=allQuotes[1:]
-        allQuotes.reverse()"""
-
-
-    numQuotes=6
-    goodSen=[]
-
-    blocks=[]
-    blockQuote= soup.find_all('blockquote') # pull block quotes 
-    for line in blockQuote:
-        if 'tweet' not in str(line.get('class')).lower():
-            blocks.append(line.get_text())
-
-    #pp.pprint(blocks)
-    blocks= trim(blocks, 165,80)
-    blocks.sort(key= lambda q:score(q), reverse=True)
-    
-    remain =numQuotes-len(blocks)
-    if remain<=0:
-        goodSen= blocks[:numQuotes]
-    else:
-        goodSen+= blocks
-        #print goodSen
-        #print allQuotes
-        allQuotes= trim(allQuotes,165, 80)
-        allQuotes.sort(key= lambda q:score(q), reverse=True)
-
-        for q in allQuotes:
-            if q not in goodSen and len(goodSen)< numQuotes:
-                goodSen.append(q)
-
-        remain2= numQuotes- len(goodSen)
-        #print goodSen
-        #print remain2
-        if remain2<=0:
-            #goodSen+= allQuotes[:remain]
-            do=0
-        else:
-            #goodSen+= allQuotes
-            #
-            # Future Pan: Make it able to combine sentences instead of trimming...
-            #
-            #print allSen
-            allSen = trim(allSen,165,80)
-            allSen.sort(key= lambda q:score(q), reverse=True)
-            #print allSen
-            for s in allSen:
-                if s not in goodSen:
-                    goodSen.append(s)
-                    if len(goodSen) >=  numQuotes:
-                        break
-    return goodSen
 
 def parse_og_image(soup):
     #this returns og image in privilaged spot
@@ -337,8 +70,14 @@ def parse_og_image(soup):
     for i in img2:
         prop=i.get('property')
         if prop=="og:image":
-            return i.get('content') # supposed to be a guarenteed good image for every article 'technically'
+            return i.get('content')
     return None
+
+def multiSplit(string):
+    if not string:
+        return []
+    seperated= string.replace('/',' ').replace('.', ' ').replace('_', ' ').replace('&', ' ').split()
+    return seperated
 
 def parse_alternates(url, soup):
     origin=multiSplit(url)
@@ -406,29 +145,27 @@ def parse_title(soup):
                 break
     return head
 
-def score(s):
+def score(sentence):
     score=0
-
-    j=s.lower()
-    for p in punctuation:
-        j=j.replace(p, ' ')
-    l=j.split()
-    for w in l:
-        if w in repository.emotive:
+    sentence = sentence.lower()
+    split = sentence.split()
+    for word in split:
+        if word in repository.emotive:
             score+=2
-        if w in repository.personal:
+        if word in repository.personal:
             score+=3
-    for w in repository.proper:
-        if w in j:
+    for word in repository.proper:
+        if word in split:
             score+=1
-    for w in repository.phrase:
-        if w in j:
+    for word in repository.phrase:
+        if word in split:
             score+=1
-    score+= s.count('\"')
-    score+= s.count(u"\u201C")
-    score+= s.count(u"\u201D")
+    score+= sentence.count('\"')
+    score+= sentence.count(u"\u201C")
+    score+= sentence.count(u"\u201D")
 
     return score
+
 def trim(sentences, max, min):
     tempQuotes = []
     if len(sentences)>0:
@@ -438,13 +175,6 @@ def trim(sentences, max, min):
                 tempQuotes.append(quote)
 
     return tempQuotes
-
-
-def multiSplit(string):
-    if not string:
-        return []
-    seperated= string.replace('/',' ').replace('.', ' ').replace('_', ' ').replace('&', ' ').split()
-    return seperated
 
 import urllib
 from PIL import ImageFile
